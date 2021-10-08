@@ -3,7 +3,7 @@ using Models;
 
 namespace FamiliesManager.Data
 {
-    public interface IDataManager
+    public interface IFamiliesDataManager
     {
         IList<Family> GetFamilies();
         void AddFamily(Family family);
