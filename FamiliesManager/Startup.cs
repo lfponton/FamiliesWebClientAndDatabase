@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FamiliesManager.Data;
+using FamilyManager.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
@@ -30,6 +31,7 @@ namespace FamiliesManager
             services.AddServerSideBlazor();
             services.AddSingleton<IAdultsDataManager, AdultsDataManager>();
             services.AddSingleton<IFamiliesDataManager, FamiliesDataManager>();
+            services.AddScoped<IUserService, UserDataManager>();
 
         }
 
