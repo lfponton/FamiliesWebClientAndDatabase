@@ -1,0 +1,86 @@
+﻿@page "/edit-adult/{Id:int}"
+@using Models
+@using FamiliesManager.Data
+@inject IAdultsDataManager DataManager
+@inject NavigationManager NavigationManager
+
+<h3>Edit todo with id: @Id</h3>
+
+@if (adultToEdit == null)
+{
+    <em>Todo not found!</em>
+}
+else
+{
+    <EditForm Model="@adultToEdit" OnValidSubmit="@Save">
+        <DataAnnotationsValidator/>
+        <ValidationSummary/>
+
+        <div class="form-group">
+            First Name:<br/>
+            <InputTextArea rows="1" @bind-Value="adultToEdit.FirstName"/>
+        </div>
+        <div class="form-group">
+            Last Name:<br/>
+            <InputTextArea rows="1" @bind-Value="adultToEdit.LastName"/>
+        </div>
+        <div class="form-group">
+            Hair Color:<br/>
+            <InputTextArea rows="1" @bind-Value="adultToEdit.HairColor"/>
+        </div>
+        <div class="form-group">
+            Eye Color:<br/>
+            <InputTextArea rows="1" @bind-Value="adultToEdit.EyeColor"/>
+        </div>
+        <div class="form-group">
+            Age:<br/>
+            <InputNumber @bind-Value="adultToEdit.Age"/>
+        </div>
+        <div class="form-group">
+            Height:<br/>
+            <InputNumber @bind-Value="adultToEdit.Height"/>
+        </div>
+        <div class="form-group">
+            Weight:<br/>
+            <InputNumber @bind-Value="adultToEdit.Weight"/>
+        </div>
+        <div class="form-group">
+            Sex:<br/>
+            <InputTextArea rows="1" @bind-Value="adultToEdit.Sex"/>
+        </div>
+        <div class="form-group">
+            JobTitle:<br/>
+            <InputTextArea rows="1" @bind-Value="jobToEdit.JobTitle"/>
+        </div>
+        <div class="form-group">
+            Salary:<br/>
+            <InputNumber @bind-Value="jobToEdit.Salary"/>
+        </div>
+        <p class="actions">
+            <button class="btn btn-outline-dark" type="submit">Create</button>
+        </p>
+    </EditForm>
+}
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    private Adult adultToEdit;
+    private Job jobToEdit;
+
+    protected override async Task OnInitializedAsync()
+    {
+        adultToEdit = DataManager.GetAdult(Id);
+        jobToEdit = adultToEdit.JobTitle;
+    }
+
+    private void Save()
+    {
+        adultToEdit.JobTitle = jobToEdit;
+        DataManager.UpdateAdult(adultToEdit);
+        NavigationManager.NavigateTo("/view-adults");
+    }
+
+}
