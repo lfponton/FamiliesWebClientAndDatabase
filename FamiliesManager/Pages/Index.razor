@@ -1,6 +1,11 @@
 @page "/"
 
 <AuthorizeView>
-<h3>Hello @context.User.Identity.Name</h3>
-<h3>You are logged in</h3>
+    <Authorized>
+        <h3>Hello @context.User.Identity.Name</h3>
+        <h3>You are logged in</h3>
+    </Authorized>
+    <NotAuthorized>
+        <h3>Hello! Please log in for full access.</h3>
+    </NotAuthorized>
 </AuthorizeView>
