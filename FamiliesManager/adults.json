@@ -1,6 +1,111 @@
 [
   {
     "JobTitle": {
+      "JobTitle": "Mascot",
+      "Salary": 99821
+    },
+    "Id": 0,
+    "FirstName": "Yasmine",
+    "LastName": "Baxter",
+    "HairColor": "Black",
+    "EyeColor": "Brown",
+    "Age": 58,
+    "Weight": 39.8,
+    "Height": 174,
+    "Sex": "F"
+  },
+  {
+    "JobTitle": {
+      "JobTitle": "Front End Web Developer",
+      "Salary": 66408
+    },
+    "Id": 1,
+    "FirstName": "Lyla",
+    "LastName": "Humphrey",
+    "HairColor": "Black",
+    "EyeColor": "Brown",
+    "Age": 36,
+    "Weight": 64.8,
+    "Height": 147,
+    "Sex": "F"
+  },
+  {
+    "JobTitle": {
+      "JobTitle": "Business Development Manager",
+      "Salary": 71456
+    },
+    "Id": 2,
+    "FirstName": "Samara",
+    "LastName": "Humphrey",
+    "HairColor": "Black",
+    "EyeColor": "Brown",
+    "Age": 34,
+    "Weight": 37,
+    "Height": 145,
+    "Sex": "F"
+  },
+  {
+    "JobTitle": {
+      "JobTitle": "Skin Care Specialist",
+      "Salary": 20545
+    },
+    "Id": 3,
+    "FirstName": "Chaya",
+    "LastName": "Mcclure",
+    "HairColor": "Black",
+    "EyeColor": "Brown",
+    "Age": 59,
+    "Weight": 32.4,
+    "Height": 167,
+    "Sex": "F"
+  },
+  {
+    "JobTitle": {
+      "JobTitle": "Vice Principal",
+      "Salary": 72901
+    },
+    "Id": 4,
+    "FirstName": "Ophelia",
+    "LastName": "Nathan",
+    "HairColor": "Black",
+    "EyeColor": "Brown",
+    "Age": 50,
+    "Weight": 106,
+    "Height": 172,
+    "Sex": "F"
+  },
+  {
+    "JobTitle": {
+      "JobTitle": "Teacher",
+      "Salary": 91588
+    },
+    "Id": 5,
+    "FirstName": "Soham",
+    "LastName": "Fitzgerald",
+    "HairColor": "Black",
+    "EyeColor": "Grey",
+    "Age": 48,
+    "Weight": 131.6,
+    "Height": 177,
+    "Sex": "M"
+  },
+  {
+    "JobTitle": {
+      "JobTitle": "Service Advisor",
+      "Salary": 72532
+    },
+    "Id": 6,
+    "FirstName": "Anastasia",
+    "LastName": "Fitzgerald",
+    "HairColor": "Black",
+    "EyeColor": "Brown",
+    "Age": 44,
+    "Weight": 99.8,
+    "Height": 147,
+    "Sex": "F"
+  },
+  {
+    "JobTitle": {
       "JobTitle": "Janitor",
       "Salary": 61437
     },
@@ -117,21 +222,6 @@
     "Age": 44,
     "Weight": 81.8,
     "Height": 172,
-    "Sex": "M"
-  },
-  {
-    "JobTitle": {
-      "JobTitle": "Engineer",
-      "Salary": 4000
-    },
-    "Id": 15,
-    "FirstName": "Luis",
-    "LastName": "Fernandez",
-    "HairColor": "Brown",
-    "EyeColor": null,
-    "Age": 35,
-    "Weight": 91.4,
-    "Height": 190,
     "Sex": "M"
   }
 ]
