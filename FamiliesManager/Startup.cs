@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FamiliesManager.Data;
+using FamilyManager.Authentication;
 using FamilyManager.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
@@ -32,6 +34,7 @@ namespace FamiliesManager
             services.AddSingleton<IAdultsDataManager, AdultsDataManager>();
             services.AddSingleton<IFamiliesDataManager, FamiliesDataManager>();
             services.AddScoped<IUserService, UserDataManager>();
+            services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
 
         }
 
