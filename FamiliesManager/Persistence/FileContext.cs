@@ -5,7 +5,7 @@ using Models;
 
 namespace FileData
 {
-    public class FileContext
+    public class FileContext : IFileContext
     {
         public IList<Family> Families { get; set; }
         public IList<Adult> Adults { get; set; }

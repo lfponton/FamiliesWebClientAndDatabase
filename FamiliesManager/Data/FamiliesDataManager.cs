@@ -7,12 +7,12 @@ namespace FamiliesManager.Data
 {
     public class FamiliesDataManager : IFamiliesDataManager
     {
-        private FileContext fileContext;
+        private IFileContext fileContext;
         private IList<Family> families;
 
-        public FamiliesDataManager()
+        public FamiliesDataManager(IFileContext fileContext)
         {
-            fileContext = new FileContext();
+            this.fileContext = fileContext;
             families = fileContext.Families;
         }
 
@@ -23,7 +23,6 @@ namespace FamiliesManager.Data
 
         public void AddFamily(Family family)
         {
-            fileContext = new FileContext();
             families.Add(family);
             fileContext.Families = families;
             fileContext.SaveChanges();

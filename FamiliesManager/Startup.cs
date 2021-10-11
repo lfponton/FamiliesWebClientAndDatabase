@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using FamiliesManager.Data;
 using FamilyManager.Authentication;
 using FamilyManager.Data;
+using FileData;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -31,6 +32,7 @@ namespace FamiliesManager
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddSingleton<IFileContext, FileContext>();
             services.AddSingleton<IAdultsDataManager, AdultsDataManager>();
             services.AddSingleton<IFamiliesDataManager, FamiliesDataManager>();
             services.AddScoped<IUserService, UserDataManager>();

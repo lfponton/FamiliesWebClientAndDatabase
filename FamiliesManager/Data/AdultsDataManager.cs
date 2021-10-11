@@ -7,12 +7,12 @@ namespace FamiliesManager.Data
 {
     public class AdultsDataManager : IAdultsDataManager
     {
-        private FileContext fileContext;
+        private IFileContext fileContext;
         private IList<Adult> adults;
 
-        public AdultsDataManager()
+        public AdultsDataManager(IFileContext fileContext)
         {
-            fileContext = new FileContext();
+            this.fileContext = fileContext;
             adults = fileContext.Adults;
         }
         
