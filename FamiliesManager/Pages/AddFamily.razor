@@ -1,0 +1,207 @@
+﻿@page "/AddFamily"
+@using FamiliesManager.Data
+@using Models
+@inject NavigationManager NavigationManager
+@inject IFamiliesDataManager DataManager
+<h3>AddFamilies</h3>
+
+<AuthorizeView>
+    <Authorized>
+        <EditForm Model="@newFamily" OnValidSubmit="@AddNewFamily" Context="addFamilyForm">
+            <DataAnnotationsValidator/>
+            <ValidationSummary/>
+
+            <div class="form-group">
+                Street Name:<br/>
+                <InputTextArea rows="1" @bind-Value="newFamily.StreetName"/>
+            </div>
+            <div class="form-group">
+                House Number:<br/>
+                <InputNumber rows="1" @bind-Value="newFamily.HouseNumber"/>
+            </div>
+            <h3>Adults</h3>
+            <p>Number of adults added: @adults.Count</p>
+            <EditForm Model="@newAdult" OnValidSubmit="() => {newAdult.JobTitle = job; adults.Add(newAdult); CreateAdult();}" Context="addAdultForm">
+                <DataAnnotationsValidator/>
+                <ValidationSummary/>
+
+                <div class="form-group">
+                    First Name:<br/>
+                    <InputTextArea rows="1" @bind-Value="newAdult.FirstName"/>
+                </div>
+                <div class="form-group">
+                    Last Name:<br/>
+                    <InputTextArea rows="1" @bind-Value="newAdult.LastName"/>
+                </div>
+                <div class="form-group">
+                    Hair Color:<br/>
+                    <InputTextArea rows="1" @bind-Value="newAdult.HairColor"/>
+                </div>
+                <div class="form-group">
+                    Eye Color:<br/>
+                    <InputTextArea rows="1" @bind-Value="newAdult.EyeColor"/>
+                </div>
+                <div class="form-group">
+                    Age:<br/>
+                    <InputNumber @bind-Value="newAdult.Age"/>
+                </div>
+                <div class="form-group">
+                    Height:<br/>
+                    <InputNumber @bind-Value="newAdult.Height"/>
+                </div>
+                <div class="form-group">
+                    Weight:<br/>
+                    <InputNumber @bind-Value="newAdult.Weight"/>
+                </div>
+                <div class="form-group">
+                    Sex:<br/>
+                    <InputTextArea rows="1" @bind-Value="newAdult.Sex"/>
+                </div>
+                <div class="form-group">
+                    JobTitle:<br/>
+                    <InputTextArea rows="1" @bind-Value="job.JobTitle"/>
+                </div>
+                <div class="form-group">
+                    Salary:<br/>
+                    <InputNumber @bind-Value="job.Salary"/>
+                </div>
+                <p class="actions">
+                    <button class="btn btn-outline-dark" type="submit">Add Adult</button>
+                </p>
+            </EditForm>
+            <h3>Children</h3>
+            <p>Number of children added: @children.Count</p>
+            <EditForm Model="@newChild" OnValidSubmit="() => {newChild.Interests = interests; newChild.Pets = pets; children.Add(newChild); CreateChild();}" Context="addChildForm">
+                <DataAnnotationsValidator/>
+                <ValidationSummary/>
+
+                <div class="form-group">
+                    First Name:<br/>
+                    <InputTextArea rows="1" @bind-Value="newChild.FirstName"/>
+                </div>
+                <div class="form-group">
+                    Last Name:<br/>
+                    <InputTextArea rows="1" @bind-Value="newChild.LastName"/>
+                </div>
+                <div class="form-group">
+                    Hair Color:<br/>
+                    <InputTextArea rows="1" @bind-Value="newChild.HairColor"/>
+                </div>
+                <div class="form-group">
+                    Eye Color:<br/>
+                    <InputTextArea rows="1" @bind-Value="newChild.EyeColor"/>
+                </div>
+                <div class="form-group">
+                    Age:<br/>
+                    <InputNumber @bind-Value="newChild.Age"/>
+                </div>
+                <div class="form-group">
+                    Height:<br/>
+                    <InputNumber @bind-Value="newChild.Height"/>
+                </div>
+                <div class="form-group">
+                    Weight:<br/>
+                    <InputNumber @bind-Value="newChild.Weight"/>
+                </div>
+                <div class="form-group">
+                    Sex:<br/>
+                    <InputTextArea rows="1" @bind-Value="newChild.Sex"/>
+                </div>
+
+                <h3>Child's Interests</h3>
+                <p>Number of interests added: @interests.Count</p>
+                <EditForm Model="@interest" OnValidSubmit="() => {interests.Add(interest); newChild.Interests = interests; CreateInterest();}" Context="AddInterestForm">
+                    <DataAnnotationsValidator/>
+                    <ValidationSummary/>
+                    <div class="form-group">
+                        Interest:<br/>
+                        <InputTextArea rows="1" @bind-Value="interest.Type"/>
+                    </div>
+                    <div class="form-group">
+                        Description:<br/>
+                        <InputTextArea @bind-Value="interest.Description"/>
+                    </div>
+                    <p class="actions">
+                        <button class="btn btn-outline-dark" type="submit">Add Interest</button>
+                    </p>
+                </EditForm>
+                <p class="actions">
+                    <button class="btn btn-outline-dark" type="submit">Add Child</button>
+                </p>
+            </EditForm>
+            <h3>Pets</h3>
+            <p>Number of pets added: @pets.Count</p>
+            <EditForm Model="@pets" OnValidSubmit="() => {pets.Add(pet); newChild.Pets = pets; CreatePet();}" Context="AddPetForm">
+                <DataAnnotationsValidator/>
+                <ValidationSummary/>
+                <div class="form-group">
+                    Species:<br/>
+                    <InputTextArea rows="1" @bind-Value="pet.Species"/>
+                </div>
+                <div class="form-group">
+                    Name:<br/>
+                    <InputTextArea @bind-Value="pet.Name"/>
+                </div>
+                <div class="form-group">
+                    Age:<br/>
+                    <InputNumber @bind-Value="pet.Age"/>
+                </div>
+                <p class="actions">
+                    <button class="btn btn-outline-dark" type="submit">Add Pet</button>
+                </p>
+            </EditForm>
+            <p class="actions">
+                <button class="btn btn-outline-dark" type="submit">Create Family</button>
+            </p>
+        </EditForm>
+    </Authorized>
+    <NotAuthorized>
+        <h3>Please log in to add adults.</h3>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    private Family newFamily = new Family();
+    private Adult newAdult = new Adult();
+    private Child newChild = new Child();
+    private Job job = new Job();
+    private Interest interest = new Interest();
+    private Pet pet = new Pet();
+    private IList<Interest> interests = new List<Interest>();
+    private IList<Adult> adults = new List<Adult>();
+    private IList<Child> children = new List<Child>();
+    private IList<Pet> pets = new List<Pet>();
+    bool appendAdultForm;
+
+    private void AddNewFamily()
+    {
+        newFamily.Adults = adults;
+        newFamily.Children = children;
+        newFamily.Pets = pets;
+        DataManager.AddFamily(newFamily);
+        NavigationManager.NavigateTo("/ViewFamilies");
+    }
+
+    private void CreateAdult()
+    {
+        newAdult = new Adult();
+        job = new Job();
+    }
+
+    private void CreateChild()
+    {
+        newChild = new Child();
+        interests = new List<Interest>();
+    }
+
+    private void CreateInterest()
+    {
+        interest = new Interest();
+    }
+
+    private void CreatePet()
+    {
+        pet = new Pet();
+    }
+
+}

@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Radzen;
 
 namespace FamiliesManager
 {
@@ -32,6 +33,10 @@ namespace FamiliesManager
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddScoped<DialogService>();
+            services.AddScoped<NotificationService>();
+            services.AddScoped<TooltipService>();
+            services.AddScoped<ContextMenuService>();
             services.AddSingleton<IFileContext, FileContext>();
             services.AddSingleton<IAdultsDataManager, AdultsDataManager>();
             services.AddSingleton<IFamiliesDataManager, FamiliesDataManager>();

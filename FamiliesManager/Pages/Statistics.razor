@@ -7,17 +7,29 @@
 @using Models
 
 <h1>Age distribution of family members</h1>
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12 my-5">
-                <RadzenChart>
-                    <RadzenColumnSeries Data="@ageDistribution" CategoryProperty="AgeCategory" Title="Count" ValueProperty="AgeCount" />
-                    <RadzenColumnOptions Radius="5" />
-                    <RadzenValueAxis Min="0"/>
-                </RadzenChart>
-            </div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 my-5">
+            <RadzenChart>
+                <RadzenColumnSeries Data="@ageDistribution" CategoryProperty="AgeCategory" Title="Count" ValueProperty="AgeCount"/>
+                <RadzenColumnOptions Radius="5"/>
+                <RadzenValueAxis Min="0"/>
+            </RadzenChart>
         </div>
     </div>
+</div>
+<h1>Age distribution of family members</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-lg-6 offset-lg-3 my-5">
+            <RadzenChart>
+                <RadzenPieSeries Data="@ageDistribution" Title="Age Distribution" CategoryProperty="AgeCategory" ValueProperty="AgeCount"/>
+            </RadzenChart>
+        </div>
+    </div>
+</div>
+
+
 @code {
     private IList<Family> families;
     private IList<Person> persons;
@@ -86,11 +98,12 @@
             },
         };
     }
-    
+
     class DataItem
     {
         public string AgeCategory { get; set; }
         public int AgeCount { get; set; }
     }
+    
 
 }

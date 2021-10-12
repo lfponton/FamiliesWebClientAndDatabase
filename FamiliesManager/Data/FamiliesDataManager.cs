@@ -23,6 +23,8 @@ namespace FamiliesManager.Data
 
         public void AddFamily(Family family)
         {
+            int max = families.Max(family => family.Id);
+            family.Id = (++max);
             families.Add(family);
             fileContext.Families = families;
             fileContext.SaveChanges();
