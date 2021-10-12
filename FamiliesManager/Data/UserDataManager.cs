@@ -16,22 +16,10 @@ namespace FamilyManager.Data
                 new User
                 {
                     Id = 1,
-                    Username = "Michael",
-                    Password = "123456"
+                    Username = "Luis",
+                    Password = "1234"
                     
                 },
-                new User
-                {
-                    Id = 2,
-                    Username = "George",
-                    Password = "123456",
-                },
-                new User
-                {
-                    Id = 3,
-                    Username = "Tobias",
-                    Password = "123456"
-                }
             }.ToList();
         }
 
