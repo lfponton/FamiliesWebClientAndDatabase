@@ -1,0 +1,96 @@
+﻿@page "/Statistics"
+@inject IFamiliesDataManager DataManager
+<h3>Statistics</h3>
+
+@page "/column-chart"
+@using FamiliesManager.Data
+@using Models
+
+<h1>Age distribution of family members</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 my-5">
+                <RadzenChart>
+                    <RadzenColumnSeries Data="@ageDistribution" CategoryProperty="AgeCategory" Title="Count" ValueProperty="AgeCount" />
+                    <RadzenColumnOptions Radius="5" />
+                    <RadzenValueAxis Min="0"/>
+                </RadzenChart>
+            </div>
+        </div>
+    </div>
+@code {
+    private IList<Family> families;
+    private IList<Person> persons;
+    private DataItem[] ageDistribution;
+
+    protected override async Task OnInitializedAsync()
+    {
+        families = DataManager.GetFamilies().ToList();
+        persons = new List<Person>();
+        foreach (var f in families)
+        {
+            foreach (var adult in f.Adults)
+            {
+                persons.Add(adult);
+            }
+            foreach (var child in f.Children)
+            {
+                persons.Add(child);
+            }
+        }
+        int zeroToTwenty = 0;
+        int twentyToForty = 0;
+        int fortyToSixty = 0;
+        int sixtyToEighty = 0;
+
+        foreach (var p in persons)
+        {
+            if (p.Age <= 20)
+            {
+                zeroToTwenty += 1;
+            }
+            else if (p.Age is > 20 and <= 40)
+            {
+                twentyToForty += 1;
+            }
+            else if (p.Age is > 40 and <= 60)
+            {
+                fortyToSixty += 1;
+            }
+            else
+            {
+                sixtyToEighty += 1;
+            }
+        }
+        ageDistribution = new DataItem[]
+        {
+            new DataItem
+            {
+                AgeCategory = "0-20",
+                AgeCount = zeroToTwenty
+            },
+            new DataItem
+            {
+                AgeCategory = "21-40",
+                AgeCount = twentyToForty
+            },
+            new DataItem
+            {
+                AgeCategory = "41-60",
+                AgeCount = fortyToSixty
+            },
+            new DataItem
+            {
+                AgeCategory = "61-80",
+                AgeCount = sixtyToEighty
+            },
+        };
+    }
+    
+    class DataItem
+    {
+        public string AgeCategory { get; set; }
+        public int AgeCount { get; set; }
+    }
+
+}
