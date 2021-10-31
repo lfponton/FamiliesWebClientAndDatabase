@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Models;
 
-namespace FamilyManager.Data
+namespace FamiliesManager.Data.Impl
 {
     public class WebUserService : IUserService
     {
-        private List<User> users;
+        private readonly List<User> users;
 
         public WebUserService()
         {

@@ -6,8 +6,8 @@ namespace FamiliesManager.Data.Impl
 {
     public class WebChildrenService : IChildrenService
     {
-        private IList<Child> children;
-        private IFamiliesService familiesService;
+        public IList<Child> Children { get; private set; }
+        private readonly IFamiliesService familiesService;
 
         public WebChildrenService(IFamiliesService familiesService)
         {
@@ -17,22 +17,22 @@ namespace FamiliesManager.Data.Impl
         
         public IList<Child> GetChildren()
         {
-            children = new List<Child>();
+            Children = new List<Child>();
             foreach (var family in familiesService.GetFamilies())
             {
                 foreach (var child in family.Children)
                 {
-                    children.Add(child);
+                    Children.Add(child);
                 }
             }
-            return children;
+            return Children;
         }
 
         public void AddChild(int? familyId, Child child)
         {
-            int max = children.Max(child => child.Id);
+            int max = Children.Max(child => child.Id);
             child.Id = (++max);
-            children.Add(child);
+            Children.Add(child);
             Family family = familiesService.GetFamilyById(familyId);
             family.Children.Add(child);
             familiesService.UpdateFamily(family);
@@ -40,14 +40,14 @@ namespace FamiliesManager.Data.Impl
 
         public void RemoveChild(Child child)
         {
-            Child toRemove = children.First(c => c.Id == child.Id);
-            children.Remove(toRemove);
+            Child toRemove = Children.First(c => c.Id == child.Id);
+            Children.Remove(toRemove);
             familiesService.UpdateFamily(FindFamily(child));
         }
 
         public void UpdateChild(Child child)
         {
-            Child toUpdate = children.First(c => c.Id == child.Id);
+            Child toUpdate = Children.First(c => c.Id == child.Id);
             toUpdate.Interests = child.Interests;
             toUpdate.Pets = child.Pets;
             toUpdate.Age = child.Age;
@@ -63,7 +63,7 @@ namespace FamiliesManager.Data.Impl
 
         public Child GetChild(int id)
         {
-            return children.FirstOrDefault(c => c.Id == id);
+            return Children.FirstOrDefault(c => c.Id == id);
         }
 
         private Family FindFamily(Child child)

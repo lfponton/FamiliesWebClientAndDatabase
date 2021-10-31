@@ -5,12 +5,12 @@ using Models;
 
 namespace FamiliesManager.Data.Impl
 {
-    public class FamiliesService : IFamiliesService
+    public class WebFamiliesService : IFamiliesService
     {
         private IFileContext fileContext;
-        public IList<Family> Families { get; private set; }
+        public IList<Family> Families { get; }
 
-        public FamiliesService(IFileContext fileContext)
+        public WebFamiliesService(IFileContext fileContext)
         {
             this.fileContext = fileContext;
             Families = fileContext.Families;

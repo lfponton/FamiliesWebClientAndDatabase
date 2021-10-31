@@ -1,6 +1,6 @@
 ﻿using Models;
 
-namespace FamilyManager.Data
+namespace FamiliesManager.Data
 {
     public interface IUserService
     {

@@ -2,12 +2,12 @@
 using System.Linq;
 using Models;
 
-namespace FamiliesManager.Data
+namespace FamiliesManager.Data.Impl
 {
     public class WebPetsService : IPetsService
     {
-        private IList<Pet> pets;
-        private IFamiliesService familiesService;
+        public IList<Pet> Pets { get; private set; }
+        private readonly IFamiliesService familiesService;
 
         public WebPetsService(IFamiliesService familiesService)
         {
@@ -17,22 +17,22 @@ namespace FamiliesManager.Data
         
         public IList<Pet> GetFamilyPets()
         {
-            pets = new List<Pet>();
+            Pets = new List<Pet>();
             foreach (var family in familiesService.GetFamilies())
             {
                 foreach (var pet in family.Pets)
                 {
-                    pets.Add(pet);
+                    Pets.Add(pet);
                 }
             }
-            return pets;
+            return Pets;
         }
 
         public void AddPet(int? familyId, Pet pet)
         {
-            int max = pets.Max(p => p.Id);
+            int max = Pets.Max(p => p.Id);
             pet.Id = (++max);
-            pets.Add(pet);
+            Pets.Add(pet);
             Family family = familiesService.GetFamilyById(familyId);
             family.Pets.Add(pet);
             familiesService.UpdateFamily(family);
@@ -40,14 +40,14 @@ namespace FamiliesManager.Data
 
         public void RemovePet(Pet pet)
         {
-            Pet toRemove = pets.First(p => p.Id == pet.Id);
-            pets.Remove(toRemove);
+            Pet toRemove = Pets.First(p => p.Id == pet.Id);
+            Pets.Remove(toRemove);
             familiesService.UpdateFamily(FindFamily(pet));
         }
 
         public void UpdatePet(Pet pet)
         {
-            Pet toUpdate = pets.First(p => p.Id == pet.Id);
+            Pet toUpdate = Pets.First(p => p.Id == pet.Id);
             toUpdate.Species = pet.Species;
             toUpdate.Name = pet.Name;
             toUpdate.Age = pet.Age;
@@ -56,7 +56,7 @@ namespace FamiliesManager.Data
 
         public Pet GetPet(int id)
         {
-            return pets.FirstOrDefault(a => a.Id == id);
+            return Pets.FirstOrDefault(a => a.Id == id);
         }
 
         private Family FindFamily(Pet pet)

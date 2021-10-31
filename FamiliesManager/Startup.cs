@@ -4,7 +4,6 @@ using Blazorise.Icons.FontAwesome;
 using FamiliesManager.Data;
 using FamiliesManager.Data.Impl;
 using FamilyManager.Authentication;
-using FamilyManager.Data;
 using FileData;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -31,8 +30,10 @@ namespace FamiliesManager
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<IFileContext, FileContext>();
-            services.AddSingleton<IAdultsService, AdultsService>();
-            services.AddSingleton<IFamiliesService, FamiliesService>();
+            services.AddSingleton<IFamiliesService, WebFamiliesService>();
+            services.AddSingleton<IAdultsService, WebAdultsService>();
+            services.AddSingleton<IChildrenService, WebChildrenService>();
+            services.AddSingleton<IPetsService, WebPetsService>();
             services.AddScoped<IUserService, WebUserService>();
             services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
             services

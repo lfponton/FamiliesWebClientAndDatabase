@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Text.Json;
 using System.Threading.Tasks;
-using FamilyManager.Data;
+using FamiliesManager.Data;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.JSInterop;
 using Models;

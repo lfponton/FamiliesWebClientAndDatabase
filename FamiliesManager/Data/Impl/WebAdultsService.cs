@@ -4,12 +4,12 @@ using Models;
 
 namespace FamiliesManager.Data.Impl
 {
-    public class AdultsService : IAdultsService
+    public class WebAdultsService : IAdultsService
     {
-        private IList<Adult> adults;
-        private IFamiliesService familiesService;
+        public IList<Adult> Adults { get; private set; }
+        private readonly IFamiliesService familiesService;
 
-        public AdultsService(IFamiliesService familiesService)
+        public WebAdultsService(IFamiliesService familiesService)
         {
             this.familiesService = familiesService;
             GetAdults();
@@ -17,22 +17,22 @@ namespace FamiliesManager.Data.Impl
         
         public IList<Adult> GetAdults()
         {
-            adults = new List<Adult>();
+            Adults = new List<Adult>();
             foreach (var family in familiesService.GetFamilies())
             {
                 foreach (var adult in family.Adults)
                 {
-                    adults.Add(adult);
+                    Adults.Add(adult);
                 }
             }
-            return adults;
+            return Adults;
         }
 
         public void AddAdult(int? familyId, Adult adult)
         {
-            int max = adults.Max(adult => adult.Id);
+            int max = Adults.Max(adult => adult.Id);
             adult.Id = (++max);
-            adults.Add(adult);
+            Adults.Add(adult);
             Family family = familiesService.GetFamilyById(familyId);
             family.Adults.Add(adult);
             familiesService.UpdateFamily(family);
@@ -40,14 +40,14 @@ namespace FamiliesManager.Data.Impl
 
         public void RemoveAdult(Adult adult)
         {
-            Adult toRemove = adults.First(a => a.Id == adult.Id);
-            adults.Remove(toRemove);
+            Adult toRemove = Adults.First(a => a.Id == adult.Id);
+            Adults.Remove(toRemove);
             familiesService.UpdateFamily(FindFamily(adult));
         }
 
         public void UpdateAdult(Adult adult)
         {
-            Adult toUpdate = adults.First(a => a.Id == adult.Id);
+            Adult toUpdate = Adults.First(a => a.Id == adult.Id);
             toUpdate.JobTitle = adult.JobTitle;
             toUpdate.Age = adult.Age;
             toUpdate.Height = adult.Height;
@@ -62,7 +62,7 @@ namespace FamiliesManager.Data.Impl
 
         public Adult GetAdult(int id)
         {
-            return adults.FirstOrDefault(a => a.Id == id);
+            return Adults.FirstOrDefault(a => a.Id == id);
         }
 
         private Family FindFamily(Adult adult)

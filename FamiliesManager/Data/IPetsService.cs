@@ -5,6 +5,7 @@ namespace FamiliesManager.Data
 {
     public interface IPetsService
     {
+        IList<Pet> Pets { get; }
         IList<Pet> GetFamilyPets();
         void AddPet(int? familyId, Pet pet);
         void RemovePet(Pet pet);

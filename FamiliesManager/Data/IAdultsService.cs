@@ -5,6 +5,7 @@ namespace FamiliesManager.Data
 {
     public interface IAdultsService
     {
+        IList<Adult> Adults { get; }
         IList<Adult> GetAdults();
         void AddAdult(int? familyId, Adult adult);
         void RemoveAdult(Adult adult);
