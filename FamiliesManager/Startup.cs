@@ -1,20 +1,17 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Blazorise;
+using Blazorise.Bootstrap;
+using Blazorise.Icons.FontAwesome;
 using FamiliesManager.Data;
+using FamiliesManager.Data.Impl;
 using FamilyManager.Authentication;
 using FamilyManager.Data;
 using FileData;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Radzen;
 
 namespace FamiliesManager
 {
@@ -33,15 +30,18 @@ namespace FamiliesManager
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddScoped<DialogService>();
-            services.AddScoped<NotificationService>();
-            services.AddScoped<TooltipService>();
-            services.AddScoped<ContextMenuService>();
             services.AddSingleton<IFileContext, FileContext>();
-            services.AddSingleton<IAdultsDataManager, AdultsDataManager>();
-            services.AddSingleton<IFamiliesDataManager, FamiliesDataManager>();
-            services.AddScoped<IUserService, UserDataManager>();
+            services.AddSingleton<IAdultsService, AdultsService>();
+            services.AddSingleton<IFamiliesService, FamiliesService>();
+            services.AddScoped<IUserService, WebUserService>();
             services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
+            services
+                .AddBlazorise( options =>
+                {
+                    options.ChangeTextOnKeyPress = true; // optional
+                } )
+                .AddBootstrapProviders()
+                .AddFontAwesomeIcons();
 
         }
 

@@ -3,10 +3,10 @@ using Models;
 
 namespace FamiliesManager.Data
 {
-    public interface IAdultsDataManager
+    public interface IAdultsService
     {
         IList<Adult> GetAdults();
-        void AddAdult(Adult adult);
+        void AddAdult(int? familyId, Adult adult);
         void RemoveAdult(Adult adult);
         void UpdateAdult(Adult adult);
         Adult GetAdult(int id);

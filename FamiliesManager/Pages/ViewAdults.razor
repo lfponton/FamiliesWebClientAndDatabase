@@ -2,7 +2,7 @@
 @using Models
 @using FamiliesManager.Data
 @inject NavigationManager NavigationManager
-@inject IAdultsDataManager DataManager
+@inject IAdultsService service
 <h3>Adults</h3>
 <p>
     Filter by User Id: <input type="number" @oninput="@((arg) => FilterById(arg))" style="width:50px"/>
@@ -84,7 +84,7 @@ else
     
     protected override async Task OnInitializedAsync()
     {
-        allAdults = DataManager.GetAdults().ToList();
+        allAdults = service.GetAdults().ToList();
         adultsDisplayed = allAdults;
     }
 
@@ -95,7 +95,7 @@ else
 
     private void RemoveAdult(Adult adult)
     {
-        DataManager.RemoveAdult(adult);
+        service.RemoveAdult(adult);
         allAdults.Remove(adult);
         adultsDisplayed.Remove(adult);
     }

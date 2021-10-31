@@ -1,0 +1,90 @@
+﻿@page "/Families"
+@using FamiliesManager.Data
+@using Models
+@inject IFamiliesService service
+@inject NavigationManager NavigationManager
+
+<h3>Families</h3>
+<p>
+Select Family Id: <input type="number" @oninput="@(SetFamilyId)" style="width:50px"/>
+</p>
+
+<Button Border="Border.Dark" disabled="@disabled" Clicked="@ViewFamily">View</Button>
+
+<Button Border="Border.Dark" disabled="@disabled" Clicked="@AddFamily">Add</Button>
+
+<Button Border="Border.Dark" disabled="@disabled" Clicked="@ViewFamily">Edit</Button>
+
+<Button Border="Border.Dark" disabled="@disabled" Clicked="@AddFamily">Remove</Button>
+
+<Row>
+    @foreach (var f in families)
+    {
+        <Column ColumnSize="ColumnSize.Is12.OnTablet.Is12.OnMobile.Is3.OnDesktop.Is3.OnWidescreen.Is3.OnFullHD">
+            <Card>
+                <CardBody>
+                    <CardTitle TextAlignment="TextAlignment.Center" Size="5">Family ID: @f.Id</CardTitle>
+                    <CardText TextAlignment="TextAlignment.Center">
+                        <ul>
+                            <li>Address: @f.StreetName @f.HouseNumber</li>
+                            <li>Adults: @f.Adults.Count</li>
+                            <li>Children: @f.Children.Count</li>
+                            <li>Pets: @f.Pets.Count</li>
+                        </ul>
+                    </CardText>
+
+                </CardBody>
+            </Card>
+        </Column>
+    }
+</Row>
+
+
+@code {
+
+    IList<Family> families;
+    private int? familyId;
+    private bool disabled = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        families = service.GetFamilies();
+    }
+
+    private void ViewFamily()
+    {
+        NavigationManager.NavigateTo("/view-adults");
+    }
+
+    private void AddFamily()
+    {
+        NavigationManager.NavigateTo("/view-adults");
+    }
+
+    private void SetFamilyId(ChangeEventArgs changeEventArgs)
+    {
+        familyId = null;
+        if (familyId is null)
+        {
+            disabled = true;
+        }
+        
+        int max = families.Max(family => family.Id);
+        
+        try
+        {
+            familyId = int.Parse(changeEventArgs.Value.ToString());
+            if (familyId <= 0 || familyId > max)
+            {
+                disabled = true;
+            }
+            else
+            {
+                disabled = false;
+            }
+        }
+        catch (Exception e)
+        {
+        }
+    }
+}

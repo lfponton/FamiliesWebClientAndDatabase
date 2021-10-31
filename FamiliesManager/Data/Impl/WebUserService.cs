@@ -5,11 +5,11 @@ using Models;
 
 namespace FamilyManager.Data
 {
-    public class UserDataManager : IUserService
+    public class WebUserService : IUserService
     {
         private List<User> users;
 
-        public UserDataManager()
+        public WebUserService()
         {
             users = new[]
             {

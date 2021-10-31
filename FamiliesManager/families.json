@@ -57,6 +57,21 @@
         "Weight": 37,
         "Height": 145,
         "Sex": "F"
+      },
+      {
+        "JobTitle": {
+          "JobTitle": "Buff",
+          "Salary": 10000
+        },
+        "Id": 15,
+        "FirstName": "Luis",
+        "LastName": "Fernandez",
+        "HairColor": "Brown",
+        "EyeColor": "Brown",
+        "Age": 30,
+        "Weight": 80,
+        "Height": 190,
+        "Sex": "M"
       }
     ],
     "Children": [
@@ -1194,6 +1209,14 @@
         "Sex": "F"
       }
     ],
+    "Pets": []
+  },
+  {
+    "Id": 10,
+    "StreetName": "bala",
+    "HouseNumber": 23,
+    "Adults": [],
+    "Children": [],
     "Pets": []
   }
 ]

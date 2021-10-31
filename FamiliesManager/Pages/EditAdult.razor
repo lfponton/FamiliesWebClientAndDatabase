@@ -1,7 +1,7 @@
 ﻿@page "/edit-adult/{Id:int}"
 @using Models
 @using FamiliesManager.Data
-@inject IAdultsDataManager DataManager
+@inject IAdultsService service
 @inject NavigationManager NavigationManager
 
 <h3>Edit todo with id: @Id</h3>
@@ -14,7 +14,8 @@ else
 {
     <EditForm Model="@adultToEdit" OnValidSubmit="@Save">
         <DataAnnotationsValidator/>
-        <ValidationSummary/>
+        <!-- ValidationSummary has the same name in AspNetCore and in Blazorise -->
+        <Microsoft.AspNetCore.Components.Forms.ValidationSummary/>
 
         <div class="form-group">
             First Name:<br/>
@@ -72,14 +73,14 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        adultToEdit = DataManager.GetAdult(Id);
+        adultToEdit = service.GetAdult(Id);
         jobToEdit = adultToEdit.JobTitle;
     }
 
     private void Save()
     {
         adultToEdit.JobTitle = jobToEdit;
-        DataManager.UpdateAdult(adultToEdit);
+        service.UpdateAdult(adultToEdit);
         NavigationManager.NavigateTo("/view-adults");
     }
 

@@ -3,55 +3,55 @@ using System.Linq;
 using FileData;
 using Models;
 
-namespace FamiliesManager.Data
+namespace FamiliesManager.Data.Impl
 {
-    public class FamiliesDataManager : IFamiliesDataManager
+    public class FamiliesService : IFamiliesService
     {
         private IFileContext fileContext;
-        private IList<Family> families;
+        public IList<Family> Families { get; private set; }
 
-        public FamiliesDataManager(IFileContext fileContext)
+        public FamiliesService(IFileContext fileContext)
         {
             this.fileContext = fileContext;
-            families = fileContext.Families;
+            Families = fileContext.Families;
         }
 
         public IList<Family> GetFamilies()
         {
-            return families;
+            return Families;
         }
 
         public void AddFamily(Family family)
         {
-            int max = families.Max(family => family.Id);
+            int max = Families.Max(f => f.Id);
             family.Id = (++max);
-            families.Add(family);
-            fileContext.Families = families;
+            Families.Add(family);
+            fileContext.Families = Families;
             fileContext.SaveChanges();
         }
 
         public void RemoveFamily(Family family)
         {
-            Family toRemove = families.First(f => f.Id == family.Id);
-            families.Remove(toRemove);
+            Family toRemove = Families.First(f => f.Id == family.Id);
+            Families.Remove(toRemove);
             fileContext.SaveChanges();
         }
 
         public void UpdateFamily(Family family)
         {
-            Family toUpdate = families.First(f => f.Id == family.Id);
+            Family toUpdate = Families.First(f => f.Id == family.Id);
             toUpdate.StreetName = family.StreetName;
             toUpdate.HouseNumber = family.HouseNumber;
             toUpdate.Adults = family.Adults;
             toUpdate.Children = family.Children;
             toUpdate.Pets = family.Pets;
-            fileContext.Families = families;
+            fileContext.Families = Families;
             fileContext.SaveChanges();
         }
 
-        public Family getFamily(int id)
+        public Family GetFamilyById(int? familyId)
         {
-            return families.FirstOrDefault(f => f.Id == id);
+            return Families.FirstOrDefault(f => f.Id == familyId);
         }
     }
 }
