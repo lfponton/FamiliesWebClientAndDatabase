@@ -1,0 +1,269 @@
+﻿@page "/ViewFamily/{Id:int}"
+@using Models
+@using FamiliesManager.Data
+@inject NavigationManager NavigationManager
+@inject IFamiliesService FamiliesService
+@inject IAdultsService AdultsService
+@inject IChildrenService ChildrenService
+@inject IPetsService PetsService
+
+<h3>Family ID @Id</h3>
+<p>
+    Select Adult Id: <input type="number" @oninput="@SetAdultId" style="width:50px"/>
+</p>
+
+<Button Border="Border.Dark" disabled="@disableAdultsButtons" Clicked="@(() => ViewAdult(adultId))">View</Button>
+
+<Button Border="Border.Dark" disabled="@disableAdultsButtons" Clicked="@(() => AddAdult(Id))">Add</Button>
+
+<Button Border="Border.Dark" disabled="@disableAdultsButtons" Clicked="@(() => EditAdult(adultId))">Edit</Button>
+<!-- todo Should not call AdultsService here. Do something more efficient. -->
+<Button Border="Border.Dark" disabled="@disableAdultsButtons" Clicked="@(() => RemoveAdult(AdultsService.GetAdult(adultId)))">Remove</Button>
+
+<Row>
+    @foreach (var a in adults)
+    {
+        <Column ColumnSize="ColumnSize.Is12.OnTablet.Is12.OnMobile.Is3.OnDesktop.Is3.OnWidescreen.Is3.OnFullHD">
+            <Card>
+                <CardBody>
+                    <CardTitle TextAlignment="TextAlignment.Center" Size="5">Adult ID: @a.Id</CardTitle>
+                    <CardText TextAlignment="TextAlignment.Center">
+                        <ul>
+                            <li><b>Fullname</b>: @a.FirstName @a.LastName</li>
+                            <li><b>Age</b>: @a.Age</li>
+                            <li><b>JobTitle</b>: @a.JobTitle.JobTitle</li>
+                            <li><b>Salary</b>: @a.JobTitle.Salary</li>
+                        </ul>
+                    </CardText>
+
+                </CardBody>
+            </Card>
+        </Column>
+    }
+</Row>
+
+<p>
+    Select Child Id: <input type="number" @oninput="@SetChildId" style="width:50px"/>
+</p>
+
+<Button Border="Border.Dark" disabled="@disableChildrenButtons" Clicked="@(() => ViewChild(childId))">View</Button>
+
+<Button Border="Border.Dark" disabled="@disableChildrenButtons" Clicked="@(() => AddChild(Id))">Add</Button>
+
+<Button Border="Border.Dark" disabled="@disableChildrenButtons" Clicked="@(() => EditChild(childId))">Edit</Button>
+
+<Button Border="Border.Dark" disabled="@disableChildrenButtons" Clicked="@(() => RemoveChild(ChildrenService.GetChild(childId)))">Remove</Button>
+
+<Row>
+    @foreach (var c in children)
+    {
+        <Column ColumnSize="ColumnSize.Is12.OnTablet.Is12.OnMobile.Is3.OnDesktop.Is3.OnWidescreen.Is3.OnFullHD">
+            <Card>
+                <CardBody>
+                    <CardTitle TextAlignment="TextAlignment.Center" Size="5">Child ID: @c.Id</CardTitle>
+                    <CardText TextAlignment="TextAlignment.Center">
+                        <ul>
+                            <li><b>Fullname</b>: @c.FirstName @c.LastName</li>
+                            <li><b>Age</b>: @c.Age</li>
+                        </ul>
+                    </CardText>
+
+                </CardBody>
+            </Card>
+        </Column>
+    }
+</Row>
+
+<p>
+    Select Child Id: <input type="number" @oninput="@SetPetId" style="width:50px"/>
+</p>
+
+<Button Border="Border.Dark" disabled="@disablePetButtons" Clicked="@(() => ViewPet(petId))">View</Button>
+
+<Button Border="Border.Dark" disabled="@disablePetButtons" Clicked="@(() => AddPet(Id))">Add</Button>
+
+<Button Border="Border.Dark" disabled="@disablePetButtons" Clicked="@(() => EditPet(petId))">Edit</Button>
+
+<Button Border="Border.Dark" disabled="@disablePetButtons" Clicked="@(() => RemovePet(PetsService.GetPet(petId)))">Remove</Button>
+
+<Row>
+    @foreach (var p in pets)
+    {
+        <Column ColumnSize="ColumnSize.Is12.OnTablet.Is12.OnMobile.Is3.OnDesktop.Is3.OnWidescreen.Is3.OnFullHD">
+            <Card>
+                <CardBody>
+                    <CardTitle TextAlignment="TextAlignment.Center" Size="5">Pet ID: @p.Id</CardTitle>
+                    <CardText TextAlignment="TextAlignment.Center">
+                        <ul>
+                            <li><b>Name</b>: @p.Name</li>
+                            <li><b>Age</b>: @p.Age</li>
+                            <li><b>Species</b>: @p.Species</li>
+                        </ul>
+                    </CardText>
+
+                </CardBody>
+            </Card>
+        </Column>
+    }
+</Row>
+
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    private bool disableAdultsButtons = true;
+    private bool disableChildrenButtons = true;
+    private bool disablePetButtons = true;
+
+    private int? adultId;
+    private int? childId;
+    private int? petId;
+
+    private IList<int> adultIds = new List<int>();
+    private IList<int> childIds = new List<int>();
+    private IList<int> petIds = new List<int>();
+
+    Family family;
+    IList<Adult> adults;
+    IList<Child> children;
+    IList<Pet> pets;
+
+    protected override async Task OnInitializedAsync()
+    {
+        family = FamiliesService.GetFamilyById(Id);
+        adults = family.Adults;
+        children = family.Children;
+        pets = family.Pets;
+        foreach (var a in adults)
+        {
+            adultIds.Add(a.Id);
+            Console.WriteLine(a.Id);
+        }
+        foreach (var c in children)
+        {
+            childIds.Add(c.Id);
+        }
+        foreach (var p in pets)
+        {
+            petIds.Add(p.Id);
+        }
+    }
+    
+    private void ViewAdult(int? id)
+    {
+        
+    }
+
+    private void AddAdult(int familyId)
+    {
+        NavigationManager.NavigateTo($"/AddAdult/{familyId}");
+    }
+
+    private void EditAdult(int? id)
+    {
+        throw new NotImplementedException();
+    }
+
+    private void RemoveAdult(Adult adult)
+    {
+        throw new NotImplementedException();
+    }
+
+    private void EditPet(int? id)
+    {
+        throw new NotImplementedException();
+    }
+
+    private void RemovePet(Pet pet)
+    {
+        throw new NotImplementedException();
+    }
+
+    private void SetAdultId(ChangeEventArgs changeEventArgs)
+    {
+        adultId = null;
+        if (adultId is null)
+        {
+            disableAdultsButtons = true;
+        }
+
+        try
+        {
+            adultId = int.Parse(changeEventArgs.Value.ToString());
+            disableAdultsButtons = !adultIds.Contains((int) adultId);
+        }
+        catch (Exception e)
+        {
+        }
+    }
+
+    private void SetChildId(ChangeEventArgs changeEventArgs)
+    {
+        childId = null;
+        if (childId is null)
+        {
+            disableChildrenButtons = true;
+        }
+
+        try
+        {
+            childId = int.Parse(changeEventArgs.Value.ToString());
+            disableChildrenButtons = !childIds.Contains((int) childId);
+        }
+        catch (Exception e)
+        {
+        }
+    }
+
+    private void ViewChild(int? id)
+    {
+        throw new NotImplementedException();
+    }
+
+    private void AddChild(int id)
+    {
+        NavigationManager.NavigateTo($"/AddChild/{id}");
+    }
+    
+    
+    private void EditChild(int? id)
+    {
+        throw new NotImplementedException();
+    }
+
+    private void RemoveChild(Child child)
+    {
+        
+    }
+
+    private void SetPetId(ChangeEventArgs changeEventArgs)
+    {
+        petId = null;
+        if (petId is null)
+        {
+            disablePetButtons = true;
+        }
+
+        try
+        {
+            petId = int.Parse(changeEventArgs.Value.ToString());
+            disablePetButtons = !petIds.Contains((int) petId);
+        }
+        catch (Exception e)
+        {
+        }
+    }
+
+    private void ViewPet(int? id)
+    {
+        throw new NotImplementedException();
+    }
+
+    private void AddPet(int id)
+    {
+        NavigationManager.NavigateTo($"/AddPet/{id}");
+    }
+
+}

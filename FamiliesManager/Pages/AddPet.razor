@@ -1,0 +1,49 @@
+﻿@page "/AddPet/{Id:int}"
+@using Models
+@using FamiliesManager.Data
+@inject IPetsService PetsService
+@inject NavigationManager NavigationManager
+<h3>Add Pet</h3>
+<AuthorizeView>
+    <Authorized>
+        <EditForm Model="@newPet" OnValidSubmit="@AddNewPet" Context="addPetForm">
+            <DataAnnotationsValidator/>
+            <Microsoft.AspNetCore.Components.Forms.ValidationSummary/>
+
+            <div class="form-group">
+                Species:<br/>
+                <InputText @bind-Value="newPet.Species"/>
+            </div>
+            <div class="form-group">
+                Name:<br/>
+                <InputText @bind-Value="newPet.Name"/>
+            </div>
+            <div class="form-group">
+                Age:<br/>
+                <InputNumber @bind-Value="newPet.Age"/>
+            </div>
+
+            <p class="actions">
+                <button class="btn btn-outline-dark" type="submit">Add Pet</button>
+            </p>
+        </EditForm>
+    </Authorized>
+    <NotAuthorized>
+        <h3>Please log in to add children.</h3>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    private Pet newPet = new Pet();
+
+    private void AddNewPet()
+    {
+        PetsService.AddPet(Id, newPet);
+        NavigationManager.NavigateTo($"/ViewFamily/{Id}");
+    }
+    
+}

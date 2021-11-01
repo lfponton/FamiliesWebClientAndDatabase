@@ -10,6 +10,6 @@ namespace FamiliesManager.Data
         void AddAdult(int? familyId, Adult adult);
         void RemoveAdult(Adult adult);
         void UpdateAdult(Adult adult);
-        Adult GetAdult(int id);
+        Adult GetAdult(int? id);
     }
 }

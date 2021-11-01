@@ -31,13 +31,15 @@
 </AuthorizeView>
 
 @code {
+    [Parameter]
+    public int Id { get; set; }
     private Family newFamily = new Family();
 
 
     private void AddNewFamily()
     {
         service.AddFamily(newFamily);
-        NavigationManager.NavigateTo("/ViewFamilies");
+        NavigationManager.NavigateTo("/Families");
     }
 
 }

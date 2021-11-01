@@ -1,15 +1,11 @@
-﻿@page "/add-adult"
+﻿@page "/AddAdult/{Id:int}"
 @using Models
 @using FamiliesManager.Data
-@inject IAdultsService service
-@inject IFamiliesService familiesService
+@inject IAdultsService AdultsService
 @inject NavigationManager NavigationManager
-<h3>AddAdult</h3>
+<h3>Add Adult</h3>
 <AuthorizeView>
     <Authorized>
-        <p>
-            Family Id: <input type="number" @oninput="@(SetFamilyId)" style="width:50px"/>
-        </p>
         <EditForm Model="@newAdult" OnValidSubmit="@AddNewAdult" Context="addAdultForm">
             <DataAnnotationsValidator/>
             <!-- ValidationSummary has the same name in AspNetCore and in Blazorise -->
@@ -56,7 +52,7 @@
                 <InputNumber @bind-Value="job.Salary"/>
             </div>
             <p class="actions">
-                <button class="btn btn-outline-dark" disabled="@disabled" type="submit">Create</button>
+                <button class="btn btn-outline-dark" type="submit">Create</button>
             </p>
         </EditForm>
     </Authorized>
@@ -65,49 +61,16 @@
 </NotAuthorized>
 </AuthorizeView>
 @code {
+    [Parameter]
+    public int Id { get; set; }
     private Adult newAdult = new Adult();
     private Job job = new Job();
-    private int? familyId;
-    private bool disabled = true;
-    private IList<Family> families;
 
-    protected override async Task OnInitializedAsync()
-    {
-        families = familiesService.Families;
-    }
-    
     private void AddNewAdult()
     {
         newAdult.JobTitle = job;
-        service.AddAdult(familyId, newAdult);
-        NavigationManager.NavigateTo("/view-adults");
-    }
-
-    private void SetFamilyId(ChangeEventArgs changeEventArgs)
-    {
-        familyId = null;
-        if (familyId is null)
-        {
-            disabled = true;
-        }
-        
-        int max = families.Max(family => family.Id);
-        
-        try
-        {
-            familyId = int.Parse(changeEventArgs.Value.ToString());
-            if (familyId <= 0 || familyId > max)
-            {
-                disabled = true;
-            }
-            else
-            {
-                disabled = false;
-            }
-        }
-        catch (Exception e)
-        {
-        }
+        AdultsService.AddAdult(Id, newAdult);
+        NavigationManager.NavigateTo($"/ViewFamily/{Id}");
     }
 
 }

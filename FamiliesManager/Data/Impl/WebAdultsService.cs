@@ -60,7 +60,7 @@ namespace FamiliesManager.Data.Impl
             familiesService.UpdateFamily(FindFamily(adult));
         }
 
-        public Adult GetAdult(int id)
+        public Adult GetAdult(int? id)
         {
             return Adults.FirstOrDefault(a => a.Id == id);
         }

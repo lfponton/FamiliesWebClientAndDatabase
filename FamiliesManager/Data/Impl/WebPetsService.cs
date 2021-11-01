@@ -54,7 +54,7 @@ namespace FamiliesManager.Data.Impl
             familiesService.UpdateFamily(FindFamily(pet));
         }
 
-        public Pet GetPet(int id)
+        public Pet GetPet(int? id)
         {
             return Pets.FirstOrDefault(a => a.Id == id);
         }

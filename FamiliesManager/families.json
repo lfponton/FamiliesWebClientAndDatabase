@@ -72,6 +72,51 @@
         "Weight": 80,
         "Height": 190,
         "Sex": "M"
+      },
+      {
+        "JobTitle": {
+          "JobTitle": "Singer",
+          "Salary": 100000
+        },
+        "Id": 16,
+        "FirstName": "Enrique",
+        "LastName": "Iglesias",
+        "HairColor": "b",
+        "EyeColor": "b",
+        "Age": 30,
+        "Weight": 90,
+        "Height": 190,
+        "Sex": "M"
+      },
+      {
+        "JobTitle": {
+          "JobTitle": "Actor",
+          "Salary": 10000000
+        },
+        "Id": 17,
+        "FirstName": "Will",
+        "LastName": "Smith",
+        "HairColor": "b",
+        "EyeColor": "b",
+        "Age": 50,
+        "Weight": 90,
+        "Height": 190,
+        "Sex": "M"
+      },
+      {
+        "JobTitle": {
+          "JobTitle": "Singer",
+          "Salary": 1000000
+        },
+        "Id": 18,
+        "FirstName": "Billy",
+        "LastName": "Joe",
+        "HairColor": "Gren",
+        "EyeColor": "B",
+        "Age": 90,
+        "Weight": 80,
+        "Height": 170,
+        "Sex": "M"
       }
     ],
     "Children": [
@@ -261,6 +306,53 @@
         "Age": 27,
         "Weight": 60,
         "Height": 170,
+        "Sex": "M"
+      },
+      {
+        "Interests": [
+          {
+            "Type": "Footbal",
+            "Description": "Likes to play"
+          },
+          {
+            "Type": "Tennis",
+            "Description": "Not good but likes it"
+          }
+        ],
+        "Pets": null,
+        "Id": 32,
+        "FirstName": "Tim",
+        "LastName": "Robins",
+        "HairColor": "B",
+        "EyeColor": "B",
+        "Age": 12,
+        "Weight": 30,
+        "Height": 100,
+        "Sex": "M"
+      },
+      {
+        "Interests": [
+          {
+            "Type": "Music",
+            "Description": "plays the drums"
+          }
+        ],
+        "Pets": [
+          {
+            "Id": 0,
+            "Species": "Dog",
+            "Name": "Bobby",
+            "Age": 4
+          }
+        ],
+        "Id": 33,
+        "FirstName": "Phil",
+        "LastName": "Collins",
+        "HairColor": "b",
+        "EyeColor": "b",
+        "Age": 12,
+        "Weight": 15,
+        "Height": 120,
         "Sex": "M"
       }
     ],
@@ -1215,6 +1307,14 @@
     "Id": 10,
     "StreetName": "bala",
     "HouseNumber": 23,
+    "Adults": [],
+    "Children": [],
+    "Pets": []
+  },
+  {
+    "Id": 11,
+    "StreetName": "Somestreet",
+    "HouseNumber": 20,
     "Adults": [],
     "Children": [],
     "Pets": []

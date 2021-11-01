@@ -10,7 +10,7 @@ namespace FamiliesManager.Data
         void AddPet(int? familyId, Pet pet);
         void RemovePet(Pet pet);
         void UpdatePet(Pet pet);
-        Pet GetPet(int id);
+        Pet GetPet(int? id);
 
     }
 }

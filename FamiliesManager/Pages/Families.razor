@@ -1,21 +1,21 @@
 ﻿@page "/Families"
 @using FamiliesManager.Data
 @using Models
-@inject IFamiliesService service
+@inject IFamiliesService FamiliesService
 @inject NavigationManager NavigationManager
 
 <h3>Families</h3>
 <p>
 Select Family Id: <input type="number" @oninput="@(SetFamilyId)" style="width:50px"/>
 </p>
+<!-- todo should always be possible to add a family, no matter the selected id. Same for adults, children and pets. -->
+<Button Border="Border.Dark" disabled="@disabled" Clicked="@(() => ViewFamily(familyId))">View</Button>
 
-<Button Border="Border.Dark" disabled="@disabled" Clicked="@ViewFamily">View</Button>
+<Button Border="Border.Dark" disabled="@disabled" Clicked="@(AddFamily)">Add</Button>
 
-<Button Border="Border.Dark" disabled="@disabled" Clicked="@AddFamily">Add</Button>
+<Button Border="Border.Dark" disabled="@disabled" Clicked="@(() => EditFamily(familyId))">Edit</Button>
 
-<Button Border="Border.Dark" disabled="@disabled" Clicked="@ViewFamily">Edit</Button>
-
-<Button Border="Border.Dark" disabled="@disabled" Clicked="@AddFamily">Remove</Button>
+<Button Border="Border.Dark" disabled="@disabled" Clicked="@(() => RemoveFamily(FamiliesService.GetFamilyById(familyId)))">Remove</Button>
 
 <Row>
     @foreach (var f in families)
@@ -26,10 +26,10 @@ Select Family Id: <input type="number" @oninput="@(SetFamilyId)" style="width:50
                     <CardTitle TextAlignment="TextAlignment.Center" Size="5">Family ID: @f.Id</CardTitle>
                     <CardText TextAlignment="TextAlignment.Center">
                         <ul>
-                            <li>Address: @f.StreetName @f.HouseNumber</li>
-                            <li>Adults: @f.Adults.Count</li>
-                            <li>Children: @f.Children.Count</li>
-                            <li>Pets: @f.Pets.Count</li>
+                            <li><b>Address</b>: @f.StreetName @f.HouseNumber</li>
+                            <li><b>Adults</b>: @f.Adults.Count</li>
+                            <li><b>Children</b>: @f.Children.Count</li>
+                            <li><b>Pets</b>: @f.Pets.Count</li>
                         </ul>
                     </CardText>
 
@@ -41,26 +41,37 @@ Select Family Id: <input type="number" @oninput="@(SetFamilyId)" style="width:50
 
 
 @code {
-
+    
     IList<Family> families;
     private int? familyId;
     private bool disabled = true;
 
     protected override async Task OnInitializedAsync()
     {
-        families = service.GetFamilies();
+        families = FamiliesService.GetFamilies();
     }
 
-    private void ViewFamily()
+    private void ViewFamily(int? id)
     {
-        NavigationManager.NavigateTo("/view-adults");
+        NavigationManager.NavigateTo($"/ViewFamily/{id}");
     }
 
     private void AddFamily()
     {
-        NavigationManager.NavigateTo("/view-adults");
+        NavigationManager.NavigateTo($"/AddFamily");
     }
 
+    private void EditFamily(int? id)
+    {
+        NavigationManager.NavigateTo($"EditFamily/{id}");
+    }
+
+    private void RemoveFamily(Family family)
+    {
+        FamiliesService.RemoveFamily(family);
+        families.Remove(family);
+    }
+    
     private void SetFamilyId(ChangeEventArgs changeEventArgs)
     {
         familyId = null;

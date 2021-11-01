@@ -1,0 +1,123 @@
+﻿@page "/AddChild/{Id:int}"
+@using Models
+@using FamiliesManager.Data
+@inject IChildrenService ChildrenService
+@inject NavigationManager NavigationManager
+<h3>Add Child</h3>
+<AuthorizeView>
+    <Authorized>
+        <EditForm Model="@newChild" OnValidSubmit="@AddNewChild" Context="addChildForm">
+            <DataAnnotationsValidator/>
+            <Microsoft.AspNetCore.Components.Forms.ValidationSummary/>
+
+            <div class="form-group">
+                First Name:<br/>
+                <InputText @bind-Value="newChild.FirstName"/>
+            </div>
+            <div class="form-group">
+                Last Name:<br/>
+                <InputText @bind-Value="newChild.LastName"/>
+            </div>
+            <div class="form-group">
+                Hair Color:<br/>
+                <InputText @bind-Value="newChild.HairColor"/>
+            </div>
+            <div class="form-group">
+                Eye Color:<br/>
+                <InputText @bind-Value="newChild.EyeColor"/>
+            </div>
+            <div class="form-group">
+                Age:<br/>
+                <InputNumber @bind-Value="newChild.Age"/>
+            </div>
+            <div class="form-group">
+                Height:<br/>
+                <InputNumber @bind-Value="newChild.Height"/>
+            </div>
+            <div class="form-group">
+                Weight:<br/>
+                <InputNumber @bind-Value="newChild.Weight"/>
+            </div>
+            <div class="form-group">
+                Sex:<br/>
+                <InputText @bind-Value="newChild.Sex"/>
+            </div>
+
+            <h3>Child's Interests</h3>
+            <p>Number of interests added: @interests.Count</p>
+            <EditForm Model="@interest" OnValidSubmit="() => {interests.Add(interest); newChild.Interests = interests; CreateInterest();}" Context="AddInterestForm">
+                <DataAnnotationsValidator/>
+                <Microsoft.AspNetCore.Components.Forms.ValidationSummary/>
+                <div class="form-group">
+                    Interest:<br/>
+                    <InputText @bind-Value="interest.Type"/>
+                </div>
+                <div class="form-group">
+                    Description:<br/>
+                    <InputTextArea @bind-Value="interest.Description"/>
+                </div>
+                <p class="actions">
+                    <button class="btn btn-outline-dark" type="submit">Add Interest</button>
+                </p>
+            </EditForm>
+            <h3>Child's Pets</h3>
+            <p>Number of pets added: @pets.Count</p>
+            <EditForm Model="@pets" OnValidSubmit="() => {pets.Add(pet); newChild.Pets = pets; CreatePet();}" Context="AddPetForm">
+                <DataAnnotationsValidator/>
+                <Microsoft.AspNetCore.Components.Forms.ValidationSummary/>
+                <div class="form-group">
+                    Species:<br/>
+                    <InputText @bind-Value="pet.Species"/>
+                </div>
+                <div class="form-group">
+                    Name:<br/>
+                    <InputText @bind-Value="pet.Name"/>
+                </div>
+                <div class="form-group">
+                    Age:<br/>
+                    <InputNumber @bind-Value="pet.Age"/>
+                </div>
+                <p class="actions">
+                    <button class="btn btn-outline-dark" type="submit">Add Pet</button>
+                </p>
+            </EditForm>
+            <p class="actions">
+                <button class="btn btn-outline-dark" type="submit">Add Child</button>
+            </p>
+        </EditForm>
+    </Authorized>
+    <NotAuthorized>
+        <h3>Please log in to add children.</h3>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    private Child newChild = new Child();
+    private IList<Interest> interests = new List<Interest>();
+    private Interest interest = new Interest();
+    private IList<Pet> pets = new List<Pet>();
+    private Pet pet = new Pet();
+
+    private void AddNewChild()
+    {
+        newChild.Interests = interests;
+        newChild.Pets = pets;
+        ChildrenService.AddChild(Id, newChild);
+        NavigationManager.NavigateTo($"/ViewFamily/{Id}");
+    }
+
+    private void CreateInterest()
+    {
+        interest = new Interest();
+    }
+
+    private void CreatePet()
+    {
+        pet = new Pet();
+    }
+
+}
