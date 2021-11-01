@@ -1310,13 +1310,5 @@
     "Adults": [],
     "Children": [],
     "Pets": []
-  },
-  {
-    "Id": 11,
-    "StreetName": "Somestreet",
-    "HouseNumber": 20,
-    "Adults": [],
-    "Children": [],
-    "Pets": []
   }
 ]

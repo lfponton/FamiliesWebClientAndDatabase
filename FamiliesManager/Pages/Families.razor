@@ -8,10 +8,10 @@
 <p>
 Select Family Id: <input type="number" @oninput="@(SetFamilyId)" style="width:50px"/>
 </p>
-<!-- todo should always be possible to add a family, no matter the selected id. Same for adults, children and pets. -->
-<Button Border="Border.Dark" disabled="@disabled" Clicked="@(() => ViewFamily(familyId))">View</Button>
 
-<Button Border="Border.Dark" disabled="@disabled" Clicked="@(AddFamily)">Add</Button>
+<Button class="btn btn-outline-dark" disabled="@disabled" Clicked="@(() => ViewFamily(familyId))">View</Button>
+
+<Button class="btn btn-outline-dark" Clicked="@(AddFamily)">Add</Button>
 
 <Button Border="Border.Dark" disabled="@disabled" Clicked="@(() => EditFamily(familyId))">Edit</Button>
 
