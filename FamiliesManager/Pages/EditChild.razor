@@ -1,0 +1,112 @@
+﻿@page "/EditChild/{familyId:int}/{Id:int}"
+@using Models
+@using FamiliesManager.Data
+@inject IChildrenService ChildrenService
+@inject NavigationManager NavigationManager
+
+<h3>Edit Child</h3>
+
+@if (childToEdit == null)
+{
+    <em>Child not found!</em>
+}
+else
+{
+    <EditForm Model="@childToEdit" OnValidSubmit="@Save">
+        <DataAnnotationsValidator/>
+        <!-- ValidationSummary has the same name in AspNetCore and in Blazorise -->
+        <Microsoft.AspNetCore.Components.Forms.ValidationSummary/>
+
+        <div class="form-group">
+            First Name:<br/>
+            <InputTextArea rows="1" @bind-Value="childToEdit.FirstName"/>
+        </div>
+        <div class="form-group">
+            Last Name:<br/>
+            <InputTextArea rows="1" @bind-Value="childToEdit.LastName"/>
+        </div>
+        <div class="form-group">
+            Hair Color:<br/>
+            <InputTextArea rows="1" @bind-Value="childToEdit.HairColor"/>
+        </div>
+        <div class="form-group">
+            Eye Color:<br/>
+            <InputTextArea rows="1" @bind-Value="childToEdit.EyeColor"/>
+        </div>
+        <div class="form-group">
+            Age:<br/>
+            <InputNumber @bind-Value="childToEdit.Age"/>
+        </div>
+        <div class="form-group">
+            Height:<br/>
+            <InputNumber @bind-Value="childToEdit.Height"/>
+        </div>
+        <div class="form-group">
+            Weight:<br/>
+            <InputNumber @bind-Value="childToEdit.Weight"/>
+        </div>
+        <div class="form-group">
+            Sex:<br/>
+            <InputTextArea rows="1" @bind-Value="childToEdit.Sex"/>
+        </div>
+        @foreach (var i in interestsToEdit)
+        {
+            <p>Interest: @i.Type</p>
+            <div class="form-group">
+                Type:<br/>
+                <InputTextArea rows="1" @bind-Value="i.Type"/>
+            </div>
+            <div class="form-group">
+                Description:<br/>
+                <InputTextArea rows="4" @bind-Value="i.Description"/>
+            </div>
+        }
+        @foreach (var p in petsToEdit)
+                {
+                    <p>Pet: @p.Name</p>
+                    <div class="form-group">
+                        Name:<br/>
+                        <InputTextArea rows="1" @bind-Value="p.Name"/>
+                    </div>
+                    <div class="form-group">
+                        Species:<br/>
+                        <InputTextArea rows="1" @bind-Value="p.Species"/>
+                    </div>
+                    <div class="form-group">
+                        Age:<br/>
+                        <InputNumber @bind-Value="p.Age"/>
+                    </div>
+                }
+        <p class="actions">
+            <button class="btn btn-outline-dark" type="submit">Create</button>
+        </p>
+    </EditForm>
+}
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+    [Parameter]
+    public int familyId { get; set; }
+
+    private Child childToEdit;
+    private IList<Interest> interestsToEdit = new List<Interest>();
+    private IList<Pet> petsToEdit = new List<Pet>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        childToEdit = ChildrenService.GetChild(Id);
+        interestsToEdit = childToEdit.Interests;
+        petsToEdit = childToEdit.Pets;
+    }
+
+    private void Save()
+    {
+        childToEdit.Interests = interestsToEdit;
+        childToEdit.Pets = petsToEdit;
+        ChildrenService.UpdateChild(childToEdit);
+        NavigationManager.NavigateTo($"/ViewFamily/{familyId}");
+    }
+
+}

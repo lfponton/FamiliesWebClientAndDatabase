@@ -12,11 +12,9 @@
     Select Adult Id: <input type="number" @oninput="@SetAdultId" style="width:50px"/>
 </p>
 
-<Button Border="Border.Dark" disabled="@disableAdultsButtons" Clicked="@(() => ViewAdult(adultId))">View</Button>
-
 <Button Border="Border.Dark" disabled="@disableAdultsButtons" Clicked="@(() => AddAdult(Id))">Add</Button>
 
-<Button Border="Border.Dark" disabled="@disableAdultsButtons" Clicked="@(() => EditAdult(adultId))">Edit</Button>
+<Button Border="Border.Dark" disabled="@disableAdultsButtons" Clicked="@(() => EditAdult(Id, adultId))">Edit</Button>
 <!-- todo Should not call AdultsService here. Do something more efficient. -->
 <Button Border="Border.Dark" disabled="@disableAdultsButtons" Clicked="@(() => RemoveAdult(AdultsService.GetAdult(adultId)))">Remove</Button>
 
@@ -46,11 +44,9 @@
     Select Child Id: <input type="number" @oninput="@SetChildId" style="width:50px"/>
 </p>
 
-<Button Border="Border.Dark" disabled="@disableChildrenButtons" Clicked="@(() => ViewChild(childId))">View</Button>
-
 <Button Border="Border.Dark" disabled="@disableChildrenButtons" Clicked="@(() => AddChild(Id))">Add</Button>
 
-<Button Border="Border.Dark" disabled="@disableChildrenButtons" Clicked="@(() => EditChild(childId))">Edit</Button>
+<Button Border="Border.Dark" disabled="@disableChildrenButtons" Clicked="@(() => EditChild(Id, childId))">Edit</Button>
 
 <Button Border="Border.Dark" disabled="@disableChildrenButtons" Clicked="@(() => RemoveChild(ChildrenService.GetChild(childId)))">Remove</Button>
 
@@ -78,11 +74,9 @@
     Select Child Id: <input type="number" @oninput="@SetPetId" style="width:50px"/>
 </p>
 
-<Button Border="Border.Dark" disabled="@disablePetButtons" Clicked="@(() => ViewPet(petId))">View</Button>
-
 <Button Border="Border.Dark" disabled="@disablePetButtons" Clicked="@(() => AddPet(Id))">Add</Button>
 
-<Button Border="Border.Dark" disabled="@disablePetButtons" Clicked="@(() => EditPet(petId))">Edit</Button>
+<Button Border="Border.Dark" disabled="@disablePetButtons" Clicked="@(() => EditPet(Id, petId))">Edit</Button>
 
 <Button Border="Border.Dark" disabled="@disablePetButtons" Clicked="@(() => RemovePet(PetsService.GetPet(petId)))">Remove</Button>
 
@@ -151,36 +145,55 @@
         }
     }
     
-    private void ViewAdult(int? id)
-    {
-        
-    }
-
+    // Adders
     private void AddAdult(int familyId)
     {
         NavigationManager.NavigateTo($"/AddAdult/{familyId}");
     }
-
-    private void EditAdult(int? id)
+    
+    private void AddChild(int id)
     {
-        throw new NotImplementedException();
+        NavigationManager.NavigateTo($"/AddChild/{id}");
+    }
+    
+    private void AddPet(int id)
+    {
+        NavigationManager.NavigateTo($"/AddPet/{id}");
+    }
+    
+    // Editors
+    private void EditAdult(int familyId, int? id)
+    {
+        NavigationManager.NavigateTo($"/EditAdult/{familyId}/{id}");
+    }
+    
+    private void EditChild(int familyId, int? id)
+    {
+        NavigationManager.NavigateTo($"/EditChild/{familyId}/{id}");
+    }
+    
+    private void EditPet(int familyId, int? id)
+    {
+        NavigationManager.NavigateTo($"/EditPet/{familyId}/{id}");
     }
 
+    // Removers
     private void RemoveAdult(Adult adult)
     {
         throw new NotImplementedException();
     }
-
-    private void EditPet(int? id)
-    {
-        throw new NotImplementedException();
-    }
-
+    
     private void RemovePet(Pet pet)
     {
         throw new NotImplementedException();
     }
 
+    private void RemoveChild(Child child)
+    {
+        throw new NotImplementedException();
+    }
+    
+    // Id setters
     private void SetAdultId(ChangeEventArgs changeEventArgs)
     {
         adultId = null;
@@ -216,28 +229,7 @@
         {
         }
     }
-
-    private void ViewChild(int? id)
-    {
-        throw new NotImplementedException();
-    }
-
-    private void AddChild(int id)
-    {
-        NavigationManager.NavigateTo($"/AddChild/{id}");
-    }
     
-    
-    private void EditChild(int? id)
-    {
-        throw new NotImplementedException();
-    }
-
-    private void RemoveChild(Child child)
-    {
-        
-    }
-
     private void SetPetId(ChangeEventArgs changeEventArgs)
     {
         petId = null;
@@ -254,16 +246,6 @@
         catch (Exception e)
         {
         }
-    }
-
-    private void ViewPet(int? id)
-    {
-        throw new NotImplementedException();
-    }
-
-    private void AddPet(int id)
-    {
-        NavigationManager.NavigateTo($"/AddPet/{id}");
     }
 
 }

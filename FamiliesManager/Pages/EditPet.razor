@@ -1,0 +1,61 @@
+﻿@page "/EditPet/{familyId:int}/{Id:int}"
+@using Models
+@using FamiliesManager.Data
+@inject IPetsService PetsService
+@inject NavigationManager NavigationManager
+
+<h3>Edit Pet</h3>
+
+@if (petToEdit == null)
+{
+    <em>Pet not found!</em>
+}
+else
+{
+    <EditForm Model="@petToEdit" OnValidSubmit="@Save">
+        <DataAnnotationsValidator/>
+        <!-- ValidationSummary has the same name in AspNetCore and in Blazorise -->
+        <Microsoft.AspNetCore.Components.Forms.ValidationSummary/>
+
+        <div class="form-group">
+            Name:<br/>
+            <InputTextArea rows="1" @bind-Value="petToEdit.Name"/>
+        </div>
+        <div class="form-group">
+            Species:<br/>
+            <InputTextArea rows="1" @bind-Value="petToEdit.Species"/>
+        </div>
+        <div class="form-group">
+            Age:<br/>
+            <InputNumber @bind-Value="petToEdit.Age"/>
+        </div>
+        
+        <p class="actions">
+            <button class="btn btn-outline-dark" type="submit">Create</button>
+        </p>
+    </EditForm>
+}
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+    [Parameter]
+    public int familyId { get; set; }
+
+    private Pet petToEdit;
+    private IList<Interest> interestsToEdit = new List<Interest>();
+    private IList<Pet> petsToEdit = new List<Pet>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        petToEdit = PetsService.GetPet(Id);
+    }
+
+    private void Save()
+    {
+        PetsService.UpdatePet(petToEdit);
+        NavigationManager.NavigateTo($"/ViewFamily/{familyId}");
+    }
+
+}

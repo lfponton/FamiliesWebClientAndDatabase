@@ -1,14 +1,14 @@
-﻿@page "/edit-adult/{Id:int}"
+﻿@page "/EditAdult/{familyId:int}/{Id:int}"
 @using Models
 @using FamiliesManager.Data
-@inject IAdultsService service
+@inject IAdultsService AdultsService
 @inject NavigationManager NavigationManager
 
-<h3>Edit todo with id: @Id</h3>
+<h3>Edit Adult</h3>
 
 @if (adultToEdit == null)
 {
-    <em>Todo not found!</em>
+    <em>Adult not found!</em>
 }
 else
 {
@@ -67,21 +67,24 @@ else
 
     [Parameter]
     public int Id { get; set; }
+    [Parameter]
+    public int familyId { get; set; }
+    
 
     private Adult adultToEdit;
     private Job jobToEdit;
 
     protected override async Task OnInitializedAsync()
     {
-        adultToEdit = service.GetAdult(Id);
+        adultToEdit = AdultsService.GetAdult(Id);
         jobToEdit = adultToEdit.JobTitle;
     }
 
     private void Save()
     {
         adultToEdit.JobTitle = jobToEdit;
-        service.UpdateAdult(adultToEdit);
-        NavigationManager.NavigateTo("/view-adults");
+        AdultsService.UpdateAdult(adultToEdit);
+        NavigationManager.NavigateTo($"/ViewFamily/{familyId}");
     }
 
 }

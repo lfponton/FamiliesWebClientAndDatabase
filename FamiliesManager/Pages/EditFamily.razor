@@ -1,0 +1,50 @@
+﻿@page "/EditFamily/{Id:int}"
+@using Models
+@using FamiliesManager.Data
+@inject IFamiliesService FamiliesService
+@inject NavigationManager NavigationManager
+<h3>EditFamily</h3>
+
+@if (familyToEdit == null)
+{
+    <em>Family not found!</em>
+}
+else
+{
+    <EditForm Model="@familyToEdit" OnValidSubmit="@Save">
+        <DataAnnotationsValidator/>
+        <!-- ValidationSummary has the same name in AspNetCore and in Blazorise -->
+        <Microsoft.AspNetCore.Components.Forms.ValidationSummary/>
+
+        <div class="form-group">
+            Street Name:<br/>
+            <InputTextArea rows="1" @bind-Value="familyToEdit.StreetName"/>
+        </div>
+        <div class="form-group">
+            House Number:<br/>
+            <InputNumber @bind-Value="familyToEdit.HouseNumber"/>
+        </div>
+        <p class="actions">
+            <button class="btn btn-outline-dark" type="submit">Create</button>
+        </p>
+    </EditForm>
+}
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    private Family familyToEdit;
+
+    protected override async Task OnInitializedAsync()
+    {
+        familyToEdit = FamiliesService.GetFamilyById(Id);
+    }
+
+    private void Save()
+    {
+        FamiliesService.UpdateFamily(familyToEdit);
+        NavigationManager.NavigateTo($"/Families");
+    }
+
+}

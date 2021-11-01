@@ -25,8 +25,8 @@
   },
   {
     "Id": 1,
-    "StreetName": "Innovation Avenue",
-    "HouseNumber": 1,
+    "StreetName": "Stuff Avenue",
+    "HouseNumber": 3,
     "Adults": [
       {
         "JobTitle": {
@@ -207,8 +207,8 @@
   },
   {
     "Id": 2,
-    "StreetName": "William Street",
-    "HouseNumber": 1,
+    "StreetName": "Stevie Street",
+    "HouseNumber": 4,
     "Adults": [
       {
         "JobTitle": {
@@ -216,7 +216,7 @@
           "Salary": 20545
         },
         "Id": 3,
-        "FirstName": "Chaya",
+        "FirstName": "Selena",
         "LastName": "Mcclure",
         "HairColor": "Black",
         "EyeColor": "Brown",
@@ -365,9 +365,9 @@
       },
       {
         "Id": 1,
-        "Species": "Cat",
-        "Name": "Piglet",
-        "Age": 13
+        "Species": "Pig",
+        "Name": "Piggy",
+        "Age": 10
       }
     ]
   },
