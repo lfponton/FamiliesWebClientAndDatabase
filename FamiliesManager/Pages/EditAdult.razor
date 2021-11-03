@@ -58,7 +58,7 @@ else
             <InputNumber @bind-Value="jobToEdit.Salary"/>
         </div>
         <p class="actions">
-            <button class="btn btn-outline-dark" type="submit">Create</button>
+            <button class="btn btn-outline-dark" type="submit">Edit Adult</button>
         </p>
     </EditForm>
 }
@@ -76,14 +76,14 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        adultToEdit = AdultsService.GetAdult(Id);
+        adultToEdit = await AdultsService.GetAdultAsync(familyId, Id);
         jobToEdit = adultToEdit.JobTitle;
     }
 
-    private void Save()
+    private async Task Save()
     {
         adultToEdit.JobTitle = jobToEdit;
-        AdultsService.UpdateAdult(adultToEdit);
+        await AdultsService.UpdateAdultAsync(familyId, adultToEdit);
         NavigationManager.NavigateTo($"/ViewFamily/{familyId}");
     }
 

@@ -31,7 +31,7 @@ else
         </div>
         
         <p class="actions">
-            <button class="btn btn-outline-dark" type="submit">Create</button>
+            <button class="btn btn-outline-dark" type="submit">Edit Pet</button>
         </p>
     </EditForm>
 }
@@ -49,12 +49,12 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        petToEdit = PetsService.GetPet(Id);
+        petToEdit = await PetsService.GetPetAsync(familyId, Id);
     }
 
-    private void Save()
+    private async Task Save()
     {
-        PetsService.UpdatePet(petToEdit);
+        await PetsService.UpdatePetAsync(familyId, petToEdit);
         NavigationManager.NavigateTo($"/ViewFamily/{familyId}");
     }
 

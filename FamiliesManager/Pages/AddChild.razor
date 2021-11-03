@@ -102,11 +102,11 @@
     private IList<Pet> pets = new List<Pet>();
     private Pet pet = new Pet();
 
-    private void AddNewChild()
+    private async Task AddNewChild()
     {
         newChild.Interests = interests;
         newChild.Pets = pets;
-        ChildrenService.AddChild(Id, newChild);
+        await ChildrenService.AddChildAsync(Id, newChild);
         NavigationManager.NavigateTo($"/ViewFamily/{Id}");
     }
 

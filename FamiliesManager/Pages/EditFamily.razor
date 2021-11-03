@@ -25,7 +25,7 @@ else
             <InputNumber @bind-Value="familyToEdit.HouseNumber"/>
         </div>
         <p class="actions">
-            <button class="btn btn-outline-dark" type="submit">Create</button>
+            <button class="btn btn-outline-dark" type="submit">Edit Family</button>
         </p>
     </EditForm>
 }
@@ -38,12 +38,12 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        familyToEdit = FamiliesService.GetFamilyById(Id);
+        familyToEdit = await FamiliesService.GetFamilyByIdAsync(Id);
     }
 
-    private void Save()
+    private async Task Save()
     {
-        FamiliesService.UpdateFamily(familyToEdit);
+        await FamiliesService.UpdateFamilyAsync(familyToEdit);
         NavigationManager.NavigateTo($"/Families");
     }
 

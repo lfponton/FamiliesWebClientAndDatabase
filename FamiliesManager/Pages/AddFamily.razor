@@ -21,7 +21,7 @@
                 <InputNumber @bind-Value="newFamily.HouseNumber"/>
             </div>
             <p class="actions">
-                <button class="btn btn-outline-dark" type="submit">Create Family</button>
+                <button class="btn btn-outline-dark" type="submit">Add Family</button>
             </p>
         </EditForm>
     </Authorized>
@@ -36,9 +36,9 @@
     private Family newFamily = new Family();
 
 
-    private void AddNewFamily()
+    private async Task AddNewFamily()
     {
-        service.AddFamily(newFamily);
+        await service.AddFamilyAsync(newFamily);
         NavigationManager.NavigateTo("/Families");
     }
 

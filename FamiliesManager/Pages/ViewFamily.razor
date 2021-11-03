@@ -11,58 +11,66 @@
 <p>
     Select Adult Id: <input type="number" @oninput="@SetAdultId" style="width:50px"/>
 </p>
-
+<div style="margin-bottom: 10px">
 <Button class="btn btn-outline-dark" Clicked="@(() => AddAdult(Id))">Add</Button>
 
 <Button class="btn btn-outline-dark" disabled="@disableAdultsButtons" Clicked="@(() => EditAdult(Id, adultId))">Edit</Button>
 
-<!-- todo Should not call AdultsService here. Do something more efficient. -->
-
-<Button class="btn btn-outline-dark" disabled="@disableAdultsButtons" Clicked="@(() => RemoveAdult(AdultsService.GetAdult(adultId)))">Remove</Button>
-
+<Button class="btn btn-outline-dark" disabled="@disableAdultsButtons" Clicked="@(() => RemoveAdult(Id, adultId))">Remove</Button>
+</div>
 <Row>
     @foreach (var a in adults)
     {
         <Column ColumnSize="ColumnSize.Is12.OnTablet.Is12.OnMobile.Is3.OnDesktop.Is3.OnWidescreen.Is3.OnFullHD">
             <Card>
                 <CardBody>
-                    <CardTitle TextAlignment="TextAlignment.Center" Size="5">Adult ID: @a.Id</CardTitle>
-                    <CardText TextAlignment="TextAlignment.Center">
+                    <CardTitle Size="5">Adult ID: @a.Id</CardTitle>
+                    <CardText>
                         <ul>
                             <li><b>Fullname</b>: @a.FirstName @a.LastName</li>
                             <li><b>Age</b>: @a.Age</li>
+                            <li><b>Hair color</b>: @a.HairColor</li>
+                            <li><b>Eye color</b>: @a.EyeColor</li>
+                            <li><b>Weight</b>: @a.Weight</li>
+                            <li><b>Height</b>: @a.Height</li>
+                            <li><b>Sex</b>: @a.Sex</li>
                             <li><b>JobTitle</b>: @a.JobTitle.JobTitle</li>
                             <li><b>Salary</b>: @a.JobTitle.Salary</li>
                         </ul>
                     </CardText>
-
                 </CardBody>
             </Card>
         </Column>
     }
 </Row>
 
-<p>
+<p style="margin-top: 10px">
     Select Child Id: <input type="number" @oninput="@SetChildId" style="width:50px"/>
 </p>
 
+<div style="margin-bottom: 10px">
 <Button class="btn btn-outline-dark" Clicked="@(() => AddChild(Id))">Add</Button>
 
 <Button class="btn btn-outline-dark" disabled="@disableChildrenButtons" Clicked="@(() => EditChild(Id, childId))">Edit</Button>
 
-<Button class="btn btn-outline-dark" disabled="@disableChildrenButtons" Clicked="@(() => RemoveChild(ChildrenService.GetChild(childId)))">Remove</Button>
-
+<Button class="btn btn-outline-dark" disabled="@disableChildrenButtons" Clicked="@(() => RemoveChild(Id, childId))">Remove</Button>
+</div>
 <Row>
     @foreach (var c in children)
     {
         <Column ColumnSize="ColumnSize.Is12.OnTablet.Is12.OnMobile.Is3.OnDesktop.Is3.OnWidescreen.Is3.OnFullHD">
             <Card>
                 <CardBody>
-                    <CardTitle TextAlignment="TextAlignment.Center" Size="5">Child ID: @c.Id</CardTitle>
-                    <CardText TextAlignment="TextAlignment.Center">
+                    <CardTitle Size="5">Child ID: @c.Id</CardTitle>
+                    <CardText>
                         <ul>
                             <li><b>Fullname</b>: @c.FirstName @c.LastName</li>
                             <li><b>Age</b>: @c.Age</li>
+                            <li><b>Hair color</b>: @c.HairColor</li>
+                            <li><b>Eye color</b>: @c.EyeColor</li>
+                            <li><b>Weight</b>: @c.Weight</li>
+                            <li><b>Height</b>: @c.Height</li>
+                            <li><b>Sex</b>: @c.Sex</li>
                         </ul>
                     </CardText>
 
@@ -72,24 +80,24 @@
     }
 </Row>
 
-<p>
-    Select Child Id: <input type="number" @oninput="@SetPetId" style="width:50px"/>
+<p style="margin-top: 10px">
+    Select Pet Id: <input type="number" @oninput="@SetPetId" style="width:50px"/>
 </p>
-
+<div style="margin-bottom: 10px">
 <Button class="btn btn-outline-dark" Clicked="@(() => AddPet(Id))">Add</Button>
 
 <Button class="btn btn-outline-dark" disabled="@disablePetButtons" Clicked="@(() => EditPet(Id, petId))">Edit</Button>
 
-<Button class="btn btn-outline-dark" disabled="@disablePetButtons" Clicked="@(() => RemovePet(PetsService.GetPet(petId)))">Remove</Button>
-
+<Button class="btn btn-outline-dark" disabled="@disablePetButtons" Clicked="@(() => RemovePet(Id, petId))">Remove</Button>
+</div>
 <Row>
     @foreach (var p in pets)
     {
         <Column ColumnSize="ColumnSize.Is12.OnTablet.Is12.OnMobile.Is3.OnDesktop.Is3.OnWidescreen.Is3.OnFullHD">
             <Card>
                 <CardBody>
-                    <CardTitle TextAlignment="TextAlignment.Center" Size="5">Pet ID: @p.Id</CardTitle>
-                    <CardText TextAlignment="TextAlignment.Center">
+                    <CardTitle Size="5">Pet ID: @p.Id</CardTitle>
+                    <CardText>
                         <ul>
                             <li><b>Name</b>: @p.Name</li>
                             <li><b>Age</b>: @p.Age</li>
@@ -122,20 +130,28 @@
     private IList<int> petIds = new List<int>();
 
     Family family;
-    IList<Adult> adults;
-    IList<Child> children;
-    IList<Pet> pets;
+    IList<Adult> adults = new List<Adult>();
+    IList<Child> children = new List<Child>();
+    IList<Pet> pets = new List<Pet>();
 
     protected override async Task OnInitializedAsync()
     {
-        family = FamiliesService.GetFamilyById(Id);
+        family = await FamiliesService.GetFamilyByIdAsync(Id);
         adults = family.Adults;
         children = family.Children;
         pets = family.Pets;
+        SetIds();
+    }
+
+    private void SetIds()
+    {
+        adultIds.Clear();
+        childIds.Clear();
+        petIds.Clear();
+
         foreach (var a in adults)
         {
             adultIds.Add(a.Id);
-            Console.WriteLine(a.Id);
         }
         foreach (var c in children)
         {
@@ -146,55 +162,59 @@
             petIds.Add(p.Id);
         }
     }
-    
+
     // Adders
     private void AddAdult(int familyId)
     {
         NavigationManager.NavigateTo($"/AddAdult/{familyId}");
     }
-    
-    private void AddChild(int id)
+
+    private void AddChild(int familyId)
     {
-        NavigationManager.NavigateTo($"/AddChild/{id}");
+        NavigationManager.NavigateTo($"/AddChild/{familyId}");
     }
-    
-    private void AddPet(int id)
+
+    private void AddPet(int familyId)
     {
-        NavigationManager.NavigateTo($"/AddPet/{id}");
+        NavigationManager.NavigateTo($"/AddPet/{familyId}");
     }
-    
+
     // Editors
     private void EditAdult(int familyId, int? id)
     {
         NavigationManager.NavigateTo($"/EditAdult/{familyId}/{id}");
     }
-    
+
     private void EditChild(int familyId, int? id)
     {
         NavigationManager.NavigateTo($"/EditChild/{familyId}/{id}");
     }
-    
+
     private void EditPet(int familyId, int? id)
     {
         NavigationManager.NavigateTo($"/EditPet/{familyId}/{id}");
     }
 
     // Removers
-    private void RemoveAdult(Adult adult)
+    private async Task RemoveAdult(int familyId, int? id)
     {
-        throw new NotImplementedException();
-    }
-    
-    private void RemovePet(Pet pet)
-    {
-        throw new NotImplementedException();
+        adults.Remove(adults.First(a => a.Id == id));
+        await AdultsService.RemoveAdultAsync(familyId, id);
     }
 
-    private void RemoveChild(Child child)
+    private async Task RemovePet(int familyId, int? id)
     {
-        throw new NotImplementedException();
+        pets.Remove(pets.First(p => p.Id == id));
+        await PetsService.RemovePetAsync(familyId, id);
     }
-    
+
+    private async Task RemoveChild(int familyId, int? id)
+    {
+        children.Remove(children.First(c => c.Id == id));
+        await ChildrenService.RemoveChildAsync(familyId, id);
+        SetIds();
+    }
+
     // Id setters
     private void SetAdultId(ChangeEventArgs changeEventArgs)
     {
@@ -231,7 +251,7 @@
         {
         }
     }
-    
+
     private void SetPetId(ChangeEventArgs changeEventArgs)
     {
         petId = null;

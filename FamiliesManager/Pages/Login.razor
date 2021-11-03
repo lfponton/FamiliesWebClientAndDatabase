@@ -1,6 +1,6 @@
 ﻿@page "/Login"
+@using FamiliesManager.Authentication
 @namespace LoginComponent
-@using FamilyManager.Authentication
 
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager NavigationManager
@@ -8,7 +8,7 @@
 <AuthorizeView>
     <NotAuthorized>
         <div class="form-group">
-            <label>User name:</label>
+            <label>Username:</label>
             <input type="text" placeholder="user name" @bind-value="username"/>
         </div>
         <div class="form-group">
@@ -38,7 +38,7 @@
         errorMessage = "";
         try
         {
-            ((CustomAuthenticationStateProvider) AuthenticationStateProvider).ValidateLogin(username, password);
+            await ((CustomAuthenticationStateProvider) AuthenticationStateProvider).ValidateLogin(username, password);
             username = "";
             password = "";
         }

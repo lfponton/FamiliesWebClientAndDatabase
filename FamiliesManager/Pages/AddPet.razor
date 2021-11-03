@@ -40,9 +40,9 @@
 
     private Pet newPet = new Pet();
 
-    private void AddNewPet()
+    private async Task AddNewPet()
     {
-        PetsService.AddPet(Id, newPet);
+        await PetsService.AddPetAsync(Id, newPet);
         NavigationManager.NavigateTo($"/ViewFamily/{Id}");
     }
     

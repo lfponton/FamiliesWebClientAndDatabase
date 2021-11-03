@@ -52,7 +52,7 @@
                 <InputNumber @bind-Value="job.Salary"/>
             </div>
             <p class="actions">
-                <button class="btn btn-outline-dark" type="submit">Create</button>
+                <button class="btn btn-outline-dark" type="submit">Add Adult</button>
             </p>
         </EditForm>
     </Authorized>
@@ -66,10 +66,10 @@
     private Adult newAdult = new Adult();
     private Job job = new Job();
 
-    private void AddNewAdult()
+    private async Task AddNewAdult()
     {
         newAdult.JobTitle = job;
-        AdultsService.AddAdult(Id, newAdult);
+        await AdultsService.AddAdultAsync(Id, newAdult);
         NavigationManager.NavigateTo($"/ViewFamily/{Id}");
     }
 

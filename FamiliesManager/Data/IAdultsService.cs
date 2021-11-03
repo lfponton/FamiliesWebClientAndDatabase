@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Models;
 
 namespace FamiliesManager.Data
@@ -6,10 +7,10 @@ namespace FamiliesManager.Data
     public interface IAdultsService
     {
         IList<Adult> Adults { get; }
-        IList<Adult> GetAdults();
-        void AddAdult(int? familyId, Adult adult);
-        void RemoveAdult(Adult adult);
-        void UpdateAdult(Adult adult);
-        Adult GetAdult(int? id);
+        Task<IList<Adult>> GetAdultsAsync(int? familyId);
+        Task AddAdultAsync(int familyId, Adult adult);
+        Task RemoveAdultAsync(int familyId, int? id);
+        Task UpdateAdultAsync(int? familyId, Adult adult);
+        Task<Adult> GetAdultAsync(int familyId, int? id);
     }
 }

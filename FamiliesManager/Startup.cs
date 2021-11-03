@@ -1,10 +1,10 @@
+using System.Net.Http;
 using Blazorise;
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
+using FamiliesManager.Authentication;
 using FamiliesManager.Data;
 using FamiliesManager.Data.Impl;
-using FamilyManager.Authentication;
-using FileData;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -29,12 +29,11 @@ namespace FamiliesManager
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<IFileContext, FileContext>();
-            services.AddSingleton<IFamiliesService, WebFamiliesService>();
-            services.AddSingleton<IAdultsService, WebAdultsService>();
-            services.AddSingleton<IChildrenService, WebChildrenService>();
-            services.AddSingleton<IPetsService, WebPetsService>();
-            services.AddScoped<IUserService, WebUserService>();
+            services.AddSingleton<IFamiliesService, FamiliesWebService>();
+            services.AddSingleton<IAdultsService, AdultsWebServices>();
+            services.AddSingleton<IChildrenService, ChildrenWebService>();
+            services.AddSingleton<IPetsService,PetsWebService>();
+            services.AddScoped<IUserService, UserWebService>();
             services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
             services
                 .AddBlazorise( options =>

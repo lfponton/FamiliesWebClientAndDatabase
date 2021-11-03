@@ -78,7 +78,7 @@ else
                     </div>
                 }
         <p class="actions">
-            <button class="btn btn-outline-dark" type="submit">Create</button>
+            <button class="btn btn-outline-dark" type="submit">Edit Child</button>
         </p>
     </EditForm>
 }
@@ -96,16 +96,16 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        childToEdit = ChildrenService.GetChild(Id);
+        childToEdit = await ChildrenService.GetChildAsync(familyId, Id);
         interestsToEdit = childToEdit.Interests;
         petsToEdit = childToEdit.Pets;
     }
 
-    private void Save()
+    private async Task Save()
     {
         childToEdit.Interests = interestsToEdit;
         childToEdit.Pets = petsToEdit;
-        ChildrenService.UpdateChild(childToEdit);
+        await ChildrenService.UpdateChildAsync(familyId, childToEdit);
         NavigationManager.NavigateTo($"/ViewFamily/{familyId}");
     }
 

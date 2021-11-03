@@ -9,22 +9,23 @@
 Select Family Id: <input type="number" @oninput="@(SetFamilyId)" style="width:50px"/>
 </p>
 
+<div style="margin-bottom: 10px">
 <Button class="btn btn-outline-dark" disabled="@disabled" Clicked="@(() => ViewFamily(familyId))">View</Button>
 
 <Button class="btn btn-outline-dark" Clicked="@(AddFamily)">Add</Button>
 
-<Button Border="Border.Dark" disabled="@disabled" Clicked="@(() => EditFamily(familyId))">Edit</Button>
+<Button class="btn btn-outline-dark" disabled="@disabled" Clicked="@(() => EditFamily(familyId))">Edit</Button>
 
-<Button Border="Border.Dark" disabled="@disabled" Clicked="@(() => RemoveFamily(FamiliesService.GetFamilyById(familyId)))">Remove</Button>
-
+<Button class="btn btn-outline-dark" disabled="@disabled" Clicked="@(() => RemoveFamily(familyId))">Remove</Button>
+</div>
 <Row>
     @foreach (var f in families)
     {
         <Column ColumnSize="ColumnSize.Is12.OnTablet.Is12.OnMobile.Is3.OnDesktop.Is3.OnWidescreen.Is3.OnFullHD">
             <Card>
                 <CardBody>
-                    <CardTitle TextAlignment="TextAlignment.Center" Size="5">Family ID: @f.Id</CardTitle>
-                    <CardText TextAlignment="TextAlignment.Center">
+                    <CardTitle Size="5">Family ID: @f.Id</CardTitle>
+                    <CardText>
                         <ul>
                             <li><b>Address</b>: @f.StreetName @f.HouseNumber</li>
                             <li><b>Adults</b>: @f.Adults.Count</li>
@@ -41,14 +42,27 @@ Select Family Id: <input type="number" @oninput="@(SetFamilyId)" style="width:50
 
 
 @code {
-    
-    IList<Family> families;
+
+    IList<Family> families = new List<Family>();
     private int? familyId;
     private bool disabled = true;
+    private IList<int> familyIds = new List<int>();
 
     protected override async Task OnInitializedAsync()
     {
-        families = FamiliesService.GetFamilies();
+        families = await FamiliesService.GetFamiliesAsync();
+        SetIds();
+    }
+    
+    private void SetIds()
+    {
+        familyIds.Clear();
+
+        foreach (var a in families)
+        {
+            familyIds.Add(a.Id);
+        }
+        
     }
 
     private void ViewFamily(int? id)
@@ -66,12 +80,14 @@ Select Family Id: <input type="number" @oninput="@(SetFamilyId)" style="width:50
         NavigationManager.NavigateTo($"EditFamily/{id}");
     }
 
-    private void RemoveFamily(Family family)
+    private async Task RemoveFamily(int? id)
     {
-        FamiliesService.RemoveFamily(family);
-        families.Remove(family);
+        families.Remove(families.First(f => f.Id == id));
+        await FamiliesService.RemoveFamilyAsync(id);
+        SetIds();
+        
     }
-    
+
     private void SetFamilyId(ChangeEventArgs changeEventArgs)
     {
         familyId = null;
@@ -79,20 +95,11 @@ Select Family Id: <input type="number" @oninput="@(SetFamilyId)" style="width:50
         {
             disabled = true;
         }
-        
-        int max = families.Max(family => family.Id);
-        
+
         try
         {
             familyId = int.Parse(changeEventArgs.Value.ToString());
-            if (familyId <= 0 || familyId > max)
-            {
-                disabled = true;
-            }
-            else
-            {
-                disabled = false;
-            }
+            disabled = !familyIds.Contains((int) familyId);
         }
         catch (Exception e)
         {
