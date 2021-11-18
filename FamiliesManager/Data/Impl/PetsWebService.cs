@@ -37,20 +37,9 @@ namespace FamiliesManager.Data.Impl
 
         public async Task AddPetAsync(int? familyId, Pet pet)
         {
-            if (Pets.Any())
-            {
-                int max = Pets.Max(pet => pet.Id);
-                pet.Id = (++max);
-            }
-            else
-            {
-                pet.Id = 1;
-            }
-
             Pets.Add(pet);
             Pet newPet = new()
             {
-                Id = pet.Id,
                 Name = pet.Name,
                 Species = pet.Species,
                 Age = pet.Age,

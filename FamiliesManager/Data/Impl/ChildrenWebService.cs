@@ -38,20 +38,9 @@ namespace FamiliesManager.Data.Impl
 
         public async Task AddChildAsync(int familyId, Child child)
         {
-            if (Children.Any())
-            {
-                int max = Children.Max(child => child.Id);
-                child.Id = (++max);
-            }
-            else
-            {
-                child.Id = 1;
-            }
-
             Children.Add(child);
             Child newChild = new()
             {
-                Id = child.Id,
                 FirstName = child.FirstName,
                 LastName = child.LastName,
                 Age = child.Age,

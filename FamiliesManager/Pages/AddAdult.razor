@@ -68,7 +68,7 @@
 
     private async Task AddNewAdult()
     {
-        newAdult.JobTitle = job;
+        newAdult.Job = job;
         await AdultsService.AddAdultAsync(Id, newAdult);
         NavigationManager.NavigateTo($"/ViewFamily/{Id}");
     }

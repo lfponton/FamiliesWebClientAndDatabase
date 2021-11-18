@@ -37,27 +37,16 @@ namespace FamiliesManager.Data.Impl
 
         public async Task AddAdultAsync(int familyId, Adult adult)
         {
-            if (Adults.Any())
-            {
-                int max = Adults.Max(adult => adult.Id);
-                adult.Id = (++max);
-            }
-            else
-            {
-                adult.Id = 1;
-            }
-
             Adults.Add(adult);
             Adult newAdult = new()
             {
-                Id = adult.Id,
                 FirstName = adult.FirstName,
                 LastName = adult.LastName,
                 Age = adult.Age,
                 EyeColor = adult.EyeColor,
                 HairColor = adult.HairColor,
                 Height = adult.Height,
-                JobTitle = adult.JobTitle,
+                Job = adult.Job,
                 Sex = adult.Sex,
                 Weight = adult.Weight
             };

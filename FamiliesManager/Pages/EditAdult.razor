@@ -77,12 +77,12 @@ else
     protected override async Task OnInitializedAsync()
     {
         adultToEdit = await AdultsService.GetAdultAsync(familyId, Id);
-        jobToEdit = adultToEdit.JobTitle;
+        jobToEdit = adultToEdit.Job;
     }
 
     private async Task Save()
     {
-        adultToEdit.JobTitle = jobToEdit;
+        adultToEdit.Job = jobToEdit;
         await AdultsService.UpdateAdultAsync(familyId, adultToEdit);
         NavigationManager.NavigateTo($"/ViewFamily/{familyId}");
     }
